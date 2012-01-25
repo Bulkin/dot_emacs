@@ -53,6 +53,8 @@
 
 (defun my-c-mode-cedet-hook ()
   (semantic-mode 1)
+  (autopair-mode 1)
+  (setq indent-tabs-mode t)
   (local-set-key "." 'semantic-complete-self-insert)
   (local-set-key ">" 'semantic-complete-self-insert)
   (local-set-key [(control return)] 'semantic-ia-complete-symbol)
@@ -68,22 +70,20 @@
   (local-set-key "\C-ci" 'semantic-decoration-include-visit)
   (local-set-key "\C-cr" 'semantic-symref-symbol)
   (local-set-key "\C-ch" 'eassist-switch-h-cpp)
-  (local-set-key "\C-cC" 'compile))
+  (local-set-key "\C-cC" 'compile)
+  (local-set-key "\C-c\C-d" 'gdb-many-windows))
 (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
 
-;; function decides whether .h file is C or C++ header, sets C++ by
-;; default because there's more chance of there being a .h without a
-;; .cc than a .h without a .c (ie. for C++ template files)
+(defvar prefer-c-mode t "Prefer c-mode to c++-mode when opening h-files")
 (defun c-c++-header ()
-  "sets either c-mode or c++-mode, whichever is appropriate for
+  "Sets either c-mode or c++-mode, whichever is appropriate for
 header"
   (interactive)
-  (let ((c-file (concat (substring (buffer-file-name) 0 -1) "c")))
-    (if (file-exists-p c-file)
-        (c-mode)
-      (c++-mode))))
+  (cond ((directory-files default-directory nil ".*c[cpx][px]?")
+         (c++-mode))
+        ((directory-files default-directory nil ".*\.c")
+         (c-mode))
+        (t (if prefer-c-mode 
+               (c-mode)
+             (c++-mode)))))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
-
-(defun debug-c-mode-hook ()
-  (local-set-key "\C-c\C-d" 'gdb-many-windows))
-(add-hook 'c-mode-common-hook 'debug-c-mode-hook)

@@ -5,12 +5,16 @@
   ;; If there is more than one, they won't work right.
  '(TeX-fold-macro-spec-list (quote (("[f]" ("footnote" "marginpar")) ("[c]" ("cite")) ("[l]" ("label")) ("[r]" ("ref" "pageref" "eqref")) ("[i]" ("index" "glossary")) ("*{1}" ("item")) ("..." ("dots")) ("(C)" ("copyright")) ("(R)" ("textregistered")) ("TM" ("texttrademark")) (1 ("part" "chapter" "section" "subsection" "subsubsection" "paragraph" "subparagraph" "part*" "chapter*" "section*" "subsection*" "subsubsection*" "paragraph*" "subparagraph*" "emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt" "textbf" "textsc" "textup")))))
  '(TeX-fold-type-list (quote (macro math)))
- '(ecb-options-version "2.32")
+ '(ecb-options-version "2.40")
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions (quote ((egg-status-buffer-mode kill) (egg-log-buffer-mode kill) (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill) (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill))))
  '(mlint-programs (quote ("" "")))
+ '(py-shell-name "python2")
+ '(python-indent-offset 4)
+ '(ropemacs-codeassist-maxfixes 3)
+ '(ropemacs-guess-project t)
  '(semantic-c-dependency-system-include-path (quote ("/opt/cuda/include" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/stdarg.h" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" "/usr/include" "/usr/include/qt4")))
- '(semantic-idle-scheduler-idle-time 5)
+ '(semantic-idle-scheduler-idle-time 5 t)
  '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
  '(transient-mark-mode t)
  '(vc-directory-exclusion-list (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
@@ -24,6 +28,8 @@
  '(info-menu-header ((t (:inherit nil :weight bold))))
  '(info-title-1 ((t (:inherit nil :weight bold :height 1.8))))
  '(info-title-4 ((t (:inherit nil :weight bold))))
+ '(irfc-table-item-face ((t (:foreground "HotPink4"))))
+ '(irfc-title-face ((t (:foreground "DarkGoldenrod3" :weight bold))))
  '(tooltip ((((class color)) (:inherit nil :background "lightyellow" :foreground "black"))))
  '(variable-pitch ((t nil)))
  '(which-func ((((class color) (min-colors 88) (background light)) (:inherit mode-line)))))
@@ -35,19 +41,11 @@
 (push "~/.emacs.d/modes/spice-mode" load-path)
 (push "~/.emacs.d/modes/egg" load-path)
 (push "~/.emacs.d/modes/elim" load-path)
+(push "~/.emacs.d/modes/imaxima-imath" load-path)
 (push "~/.emacs.d/modes" load-path)
 (push "~/.emacs.d" load-path)
 
 (setenv "PAGER" "cat")
-
-; kills other buffer  
-(defun kill-other-buffer ()
-  "Kills the buffer currently in other window"
-  (interactive)
-  (other-window 1)
-  (kill-this-buffer)
-  (other-window -1))
-(global-set-key "\C-K" 'kill-other-buffer)
 
 (require 'color-theme)
 (if (symbol-value 'window-system) 
@@ -57,15 +55,20 @@
 
 ;; (require 'site-gentoo)
 
-;; load cedet
+;; load lang-specific options
 (load-file "~/.emacs.d/load_cedet.el")
+(load-file "~/.emacs.d/load_python.el")
+
+(defun kill-other-buffer ()
+  "Kills the buffer currently in other window"
+  (interactive)
+  (other-window 1)
+  (kill-this-buffer)
+  (other-window -1))
+(global-set-key "\C-x\C-k" 'kill-other-buffer)
 
 ;; (require 'ecb)
 (require 'elscreen)
-;;(require 'pydb)
-
-;; setup python
-(load-file "~/.emacs.d/python_setup.el")
 
 ;; switching buffers
 (iswitchb-mode 1)
@@ -83,13 +86,17 @@
 
 
 (set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
+
+;;; imaxima
+(autoload 'imaxima "imaxima" "Maxima frontend" t)
+(autoload 'imath "imath" "Interactive Math mode" t)
 (setq imaxima-fnt-size "Large")
 
 ;; set proper indentation
-;; (require 'smart-tabs)
+(require 'smart-tabs)
 (setq default-tab-width 4)
+;; tabs-with-spaces only in c-modes
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
 
 ;; make minibuffer nonresizable
 (setq max-mini-window-height nil)
@@ -98,7 +105,10 @@
 
 ;; remove toolbar
 (if (> emacs-major-version 20)
-        (tool-bar-mode -1))
+	(tool-bar-mode -1))
+
+;; remove scrollbar
+(scroll-bar-mode -1)
 
 ;; Always end a file with a newline
 (setq require-final-newline t)
@@ -106,10 +116,13 @@
 ;; Format the title-bar to always include the buffer name
 (setq frame-title-format "emacs - %b")
 
+;; disable welcome message
+;;(setq inhibit-startup-message t)
+;;(setq inhibit-startup-echo-area-message t)
+
 ;; disable scrollbars and menu bar
 ;;(scroll-bar-mode -1)
 (menu-bar-mode -1)
-
 ;; flash instead of that annoying bell
 (setq visible-bell t)
 
@@ -133,19 +146,25 @@
   version-control t)
 (setq auto-save-file-name-transforms `(("\\([^/]*/\\)*\\([^/]*\\)\\'" "~/.emacs.d/autosaves/\\2" t)))
 
-;; ---------- Custom modes ----------
 (require 'egg)
 ;; (require 'magit)
 
 ;; im client
 (autoload 'garak "garak" nil t)
 
+;; global keybindings
 (global-set-key "\C-xr" 'revert-buffer)
+(global-set-key "\C-\M-a" 'beginning-of-defun)
+(global-set-key "\C-x\C-b" 'buffer-menu)
+
+
 (require 'autopair)
-(autopair-global-mode)
+;; (autopair-global-mode)
 ;; fix autopair in sldb
 (add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))
 (add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
+(add-hook 'slime-repl-mode-hook
+		  #'(lambda () (setq autopair-dont-activate t)))
 
 (autoload 'cuda-mode "cuda-mode" "Mode for cuda" t)
 ;; (setq auto-mode-alist (append (list (cons "\\.cu$" 'cuda-mode)) auto-mode-alist))
@@ -163,16 +182,18 @@
 (autoload 'w3m "w3m" "web browser emacs front-end" t)
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-;; optional keyboard short-cut
+;; optional keyboard shortcut
 (global-set-key "\C-xm" 'browse-url-at-point)
 
 ;;; load slime
 (setq inferior-lisp-program "/usr/bin/sbcl")
 ;; (add-to-list 'load-path "~/.emacs.d/slime")
 (require 'slime)
-(slime-setup)
+(slime-setup '(slime-fancy slime-asdf))
 (set-language-environment "UTF-8")
 (setq slime-net-coding-system 'utf-8-unix)
+(setq common-lisp-hyperspec-root "/home/bulkin/.emacs.d/HyperSpec/")
+
 
 ;;     (add-to-list 'load-path "/usr/share/emacs/site-lisp/slime")
 ;;     (require 'slime)
@@ -260,3 +281,6 @@
   (setq c-basic-offset 8))
 
 (put 'upcase-region 'disabled nil)
+
+(require 'irfc)
+(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
