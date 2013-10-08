@@ -1,6 +1,6 @@
 ;; python
 ;;(require 'pydb)
-(require 'python-mode)
+;;(require 'python-mode)
 (autoload 'python-mode "python-mode" "Python Mode." t)
 (setq py-which-shell "python2")
 ;;(add-to-list 'auto-mode-alist '("\\.py\\'" . python3-mode))

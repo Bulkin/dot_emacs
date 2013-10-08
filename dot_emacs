@@ -1,35 +1,40 @@
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(TeX-fold-macro-spec-list (quote (("[f]" ("footnote" "marginpar")) ("[c]" ("cite")) ("[l]" ("label")) ("[r]" ("ref" "pageref" "eqref")) ("[i]" ("index" "glossary")) ("*{1}" ("item")) ("..." ("dots")) ("(C)" ("copyright")) ("(R)" ("textregistered")) ("TM" ("texttrademark")) (1 ("part" "chapter" "section" "subsection" "subsubsection" "paragraph" "subparagraph" "part*" "chapter*" "section*" "subsection*" "subsubsection*" "paragraph*" "subparagraph*" "emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt" "textbf" "textsc" "textup")))))
  '(TeX-fold-type-list (quote (macro math)))
  '(ecb-options-version "2.40")
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions (quote ((egg-status-buffer-mode kill) (egg-log-buffer-mode kill) (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill) (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill))))
+ '(fill-column 78)
+ '(ispell-program-name "/usr/bin/aspell")
+ '(latex-run-command "pdflatex")
  '(mlint-programs (quote ("" "")))
  '(py-shell-name "python2")
  '(python-indent-offset 4)
+ '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
  '(ropemacs-codeassist-maxfixes 3)
  '(ropemacs-guess-project t)
- '(semantic-c-dependency-system-include-path (quote ("/opt/cuda/include" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/stdarg.h" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" "/usr/include" "/usr/include/qt4")))
- '(semantic-idle-scheduler-idle-time 5 t)
+ '(semantic-c-dependency-system-include-path (quote ("/opt/cuda/include" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/stdarg.h" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" "/usr/include" "/usr/include/qt4" "/usr/msp430/include")))
+ '(semantic-idle-scheduler-idle-time 5)
  '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
  '(transient-mark-mode t)
  '(vc-directory-exclusion-list (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(fixed-pitch ((t (:family "*"))))
  '(info-menu-header ((t (:inherit nil :weight bold))))
  '(info-title-1 ((t (:inherit nil :weight bold :height 1.8))))
  '(info-title-4 ((t (:inherit nil :weight bold))))
  '(irfc-table-item-face ((t (:foreground "HotPink4"))))
  '(irfc-title-face ((t (:foreground "DarkGoldenrod3" :weight bold))))
+ '(isearch ((((class color) (min-colors 88) (background light)) (:background "magenta2" :foreground "black"))))
  '(tooltip ((((class color)) (:inherit nil :background "lightyellow" :foreground "black"))))
  '(variable-pitch ((t nil)))
  '(which-func ((((class color) (min-colors 88) (background light)) (:inherit mode-line)))))
@@ -54,10 +59,6 @@
       (color-theme-pierson)))
 
 ;; (require 'site-gentoo)
-
-;; load lang-specific options
-(load-file "~/.emacs.d/load_cedet.el")
-(load-file "~/.emacs.d/load_python.el")
 
 (defun kill-other-buffer ()
   "Kills the buffer currently in other window"
@@ -87,11 +88,6 @@
 
 (set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
 
-;;; imaxima
-(autoload 'imaxima "imaxima" "Maxima frontend" t)
-(autoload 'imath "imath" "Interactive Math mode" t)
-(setq imaxima-fnt-size "Large")
-
 ;; set proper indentation
 (require 'smart-tabs)
 (setq default-tab-width 4)
@@ -104,21 +100,16 @@
 (show-paren-mode t)
 
 ;; remove toolbar
-(if (> emacs-major-version 20)
-	(tool-bar-mode -1))
+(tool-bar-mode -1)
 
 ;; remove scrollbar
-(scroll-bar-mode -1)
+(scroll-bar-mode 1)
 
 ;; Always end a file with a newline
 (setq require-final-newline t)
 
 ;; Format the title-bar to always include the buffer name
 (setq frame-title-format "emacs - %b")
-
-;; disable welcome message
-;;(setq inhibit-startup-message t)
-;;(setq inhibit-startup-echo-area-message t)
 
 ;; disable scrollbars and menu bar
 ;;(scroll-bar-mode -1)
@@ -146,17 +137,10 @@
   version-control t)
 (setq auto-save-file-name-transforms `(("\\([^/]*/\\)*\\([^/]*\\)\\'" "~/.emacs.d/autosaves/\\2" t)))
 
-(require 'egg)
-;; (require 'magit)
-
-;; im client
-(autoload 'garak "garak" nil t)
-
 ;; global keybindings
 (global-set-key "\C-xr" 'revert-buffer)
 (global-set-key "\C-\M-a" 'beginning-of-defun)
 (global-set-key "\C-x\C-b" 'buffer-menu)
-
 
 (require 'autopair)
 ;; (autopair-global-mode)
@@ -166,109 +150,6 @@
 (add-hook 'slime-repl-mode-hook
 		  #'(lambda () (setq autopair-dont-activate t)))
 
-(autoload 'cuda-mode "cuda-mode" "Mode for cuda" t)
-;; (setq auto-mode-alist (append (list (cons "\\.cu$" 'cuda-mode)) auto-mode-alist))
-
-;;; add autoload of imaxima and maxima.
-(autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
-(autoload 'maxima "maxima" "Frontend for maxima" t)
-;;; add autoload of imath.
-(autoload 'imath-mode "imath" "Imath mode for math formula input" t)
-;;; Make the line effective if you want to use maxima mode with imaxima. 
-;;(setq imaxima-use-maxima-mode-flag t)
-
-
-;;; w3m
-(autoload 'w3m "w3m" "web browser emacs front-end" t)
-(setq browse-url-browser-function 'w3m-browse-url)
-(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-;; optional keyboard shortcut
-(global-set-key "\C-xm" 'browse-url-at-point)
-
-;;; load slime
-(setq inferior-lisp-program "/usr/bin/sbcl")
-;; (add-to-list 'load-path "~/.emacs.d/slime")
-(require 'slime)
-(slime-setup '(slime-fancy slime-asdf))
-(set-language-environment "UTF-8")
-(setq slime-net-coding-system 'utf-8-unix)
-(setq common-lisp-hyperspec-root "/home/bulkin/.emacs.d/HyperSpec/")
-
-
-;;     (add-to-list 'load-path "/usr/share/emacs/site-lisp/slime")
-;;     (require 'slime)
-;;     (slime-setup)
-
-;; setup octave-mode
-(autoload 'octave-mode "octave-mod" nil t)
-(setq auto-mode-alist
-	  (cons '("\\.m$" . octave-mode) auto-mode-alist))
-(add-hook 'octave-mode-hook
-		  (lambda ()
-			(abbrev-mode 1)
-			(auto-fill-mode 1)
-			(if (eq window-system 'x)
-				(font-lock-mode 1))))
-(setq octave-block-offset 4)
-
-;;---------- session autoload ----------
-
-(require 'session)
-(add-hook 'after-init-hook 'session-initialize)
-
-;;----------      latex       ----------
-;; AUCTeX configuration
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-(setq-default ispell-dictionary "english")
-(setq-default auto-fill-function 'do-auto-fill)
-;; toggle shell escape using C-c C-t C-x
-(defun TeX-toggle-escape nil (interactive)
-  (setq LaTeX-command
-        (if (string= LaTeX-command "latex") "latex -shell-escape" "latex")))
-(add-hook 'LaTeX-mode-hook
-          (lambda nil
-             (define-key LaTeX-mode-map "\C-c\C-t\C-x"
-			   'TeX-toggle-escape))) 
-
-(defun guess-TeX-master (filename)
-  "Guess the master file for FILENAME from currently open .tex files."
-  (let ((candidate nil)
-		(filename (file-name-nondirectory filename)))
-	(save-excursion
-	  (dolist (buffer (buffer-list))
-		(with-current-buffer buffer
-		  (let ((name (buffer-name))
-				(file buffer-file-name))
-			(if (and file (string-match "\\.tex$" file))
-				(progn
-				  (goto-char (point-min))
-				  (if (re-search-forward (concat "\\\\input{" filename "}") nil t)
-					  (setq candidate file))
-				  (if (re-search-forward (concat "\\\\include{" (file-name-sans-extension filename) "}") nil t)
-					  (setq candidate file))))))))
-	(if candidate
-		(message "TeX master document: %s" (file-name-nondirectory candidate)))
-	candidate))
-(add-hook 'LaTeX-mode-hook
-		  (lambda nil 
-			(setq TeX-master (guess-TeX-master (buffer-file-name)))))
-(add-hook 'LaTeX-mode-hook
-		  'TeX-fold-mode)
-(add-hook 'LaTeX-mode-hook
-		  'TeX-PDF-mode)
-;; Reftex
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; AUCTeX LaTeX mode
-(add-hook 'latex-mode-hook 'turn-on-reftex)   ; Emacs latex mode
-(setq reftex-enable-partial-scans t)
-(setq reftex-save-parse-info t)
-(setq reftex-use-multiple-selection-buffers t)
-(setq reftex-plug-into-AUCTeX t)
-(setq reftex-isearch-document t)
-(autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
 
 ;;---------- additional modes ----------
 (defun linux-c-mode ()
@@ -282,5 +163,11 @@
 
 (put 'upcase-region 'disabled nil)
 
-(require 'irfc)
-(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
+;; load lang-specific options
+(load-file "~/.emacs.d/load_cedet.el")
+(load-file "~/.emacs.d/load_python.el")
+
+(load-file "~/.emacs.d/load_misc.el")
+
+;;(require 'irfc)
+;;(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))

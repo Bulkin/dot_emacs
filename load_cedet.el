@@ -40,19 +40,21 @@
 ;; (require 'semantic-gcc)
 ;; semantic dirs
 (semantic-add-system-include "/opt/cuda/include" 'c++-mode)
-(semantic-add-system-include "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" 'c++-mode)
 (semantic-add-system-include "/usr/include/qt4" 'c++-mode)
 (add-to-list 'auto-mode-alist (cons "/opt/cuda/include" 'c++-mode))
 (add-to-list 'auto-mode-alist (cons "/usr/include/qt4" 'c++-mode))
-(add-to-list 'auto-mode-alist (cons "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" 'c++-mode))
 ;; (add-to-list 'semantic-lex-c-preprocessor-symbol-file "/usr/include/qt4/Qt/qconfig.h")
 
 (setf semantic-idle-scheduler-idle-time 0.5)
 
+(semanticdb-enable-gnu-global-databases 'c-mode t)
+(semanticdb-enable-gnu-global-databases 'c++-mode t)
+
+(semantic-mode 1)
+
 (require 'eassist)
 
 (defun my-c-mode-cedet-hook ()
-  (semantic-mode 1)
   (autopair-mode 1)
   (setq indent-tabs-mode t)
   (local-set-key "." 'semantic-complete-self-insert)
@@ -73,8 +75,9 @@
   (local-set-key "\C-cC" 'compile)
   (local-set-key "\C-c\C-d" 'gdb-many-windows))
 (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
-
+ 
 (defvar prefer-c-mode t "Prefer c-mode to c++-mode when opening h-files")
+
 (defun c-c++-header ()
   "Sets either c-mode or c++-mode, whichever is appropriate for
 header"
