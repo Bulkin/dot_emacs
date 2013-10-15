@@ -6,6 +6,7 @@
  '(TeX-fold-macro-spec-list (quote (("[f]" ("footnote" "marginpar")) ("[c]" ("cite")) ("[l]" ("label")) ("[r]" ("ref" "pageref" "eqref")) ("[i]" ("index" "glossary")) ("*{1}" ("item")) ("..." ("dots")) ("(C)" ("copyright")) ("(R)" ("textregistered")) ("TM" ("texttrademark")) (1 ("part" "chapter" "section" "subsection" "subsubsection" "paragraph" "subparagraph" "part*" "chapter*" "section*" "subsection*" "subsubsection*" "paragraph*" "subparagraph*" "emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt" "textbf" "textsc" "textup")))))
  '(TeX-fold-type-list (quote (macro math)))
  '(ecb-options-version "2.40")
+ '(ede-project-directories (quote ("/home/bulkin/src/prj/msp430/g2553")))
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions (quote ((egg-status-buffer-mode kill) (egg-log-buffer-mode kill) (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill) (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill))))
  '(fill-column 78)
@@ -13,12 +14,12 @@
  '(latex-run-command "pdflatex")
  '(mlint-programs (quote ("" "")))
  '(py-shell-name "python2")
+ '(py-smart-indentation nil)
  '(python-indent-offset 4)
  '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
  '(ropemacs-codeassist-maxfixes 3)
  '(ropemacs-guess-project t)
- '(semantic-c-dependency-system-include-path (quote ("/opt/cuda/include" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/stdarg.h" "/usr/lib64/gcc/x86_64-pc-linux-gnu/4.4.5/include/g++-v4" "/usr/include" "/usr/include/qt4" "/usr/msp430/include")))
- '(semantic-idle-scheduler-idle-time 5)
+ '(semantic-c-dependency-system-include-path (quote ("/usr/include" "/usr/msp430/include")))
  '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
  '(transient-mark-mode t)
  '(vc-directory-exclusion-list (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
@@ -89,7 +90,7 @@
 (set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
 
 ;; set proper indentation
-(require 'smart-tabs)
+;; (require 'smart-tabs)
 (setq default-tab-width 4)
 ;; tabs-with-spaces only in c-modes
 (setq-default indent-tabs-mode nil)
@@ -165,7 +166,8 @@
 
 ;; load lang-specific options
 (load-file "~/.emacs.d/load_cedet.el")
-(load-file "~/.emacs.d/load_python.el")
+(load-file "~/.emacs.d/load_packages.el")
+;;(load-file "~/.emacs.d/load_python.el")
 
 (load-file "~/.emacs.d/load_misc.el")
 

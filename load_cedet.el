@@ -39,9 +39,8 @@
 ;; (require 'semantic-ia)
 ;; (require 'semantic-gcc)
 ;; semantic dirs
-(semantic-add-system-include "/opt/cuda/include" 'c++-mode)
 (semantic-add-system-include "/usr/include/qt4" 'c++-mode)
-(add-to-list 'auto-mode-alist (cons "/opt/cuda/include" 'c++-mode))
+(semantic-add-system-include "/usr/msp430/include" 'c-mode)
 (add-to-list 'auto-mode-alist (cons "/usr/include/qt4" 'c++-mode))
 ;; (add-to-list 'semantic-lex-c-preprocessor-symbol-file "/usr/include/qt4/Qt/qconfig.h")
 
