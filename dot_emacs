@@ -89,6 +89,11 @@
 
 (set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
 
+;; ascii-term colors
+(setq ansi-color-names-vector
+      ["#000000" "#b21818" "#18b218" "#BE5F00"
+       "#6D85BA" "#b218b2" "#18b2b2" "#b2b2b2"])
+
 ;; set proper indentation
 ;; (require 'smart-tabs)
 (setq default-tab-width 4)

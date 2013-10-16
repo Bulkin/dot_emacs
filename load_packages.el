@@ -9,8 +9,10 @@
 ;;    elpy
 ;;    smart-tabs-mode
 
-(require 'python-mode)
 (elpy-enable)
 (elpy-use-ipython)
+(setq python-shell-interpreter-args "--colors Linux --no-autoindent")
+
+;;(require 'python-mode)
 
 (smart-tabs-insinuate 'c 'c++)
