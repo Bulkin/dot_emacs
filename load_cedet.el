@@ -55,6 +55,8 @@
 
 (defun my-c-mode-cedet-hook ()
   (autopair-mode 1)
+  (auto-fill-mode 0)
+  (fci-mode 1)
   (setq indent-tabs-mode t)
   (local-set-key "." 'semantic-complete-self-insert)
   (local-set-key ">" 'semantic-complete-self-insert)

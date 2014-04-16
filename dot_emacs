@@ -6,7 +6,7 @@
  '(TeX-fold-macro-spec-list (quote (("[f]" ("footnote" "marginpar")) ("[c]" ("cite")) ("[l]" ("label")) ("[r]" ("ref" "pageref" "eqref")) ("[i]" ("index" "glossary")) ("*{1}" ("item")) ("..." ("dots")) ("(C)" ("copyright")) ("(R)" ("textregistered")) ("TM" ("texttrademark")) (1 ("part" "chapter" "section" "subsection" "subsubsection" "paragraph" "subparagraph" "part*" "chapter*" "section*" "subsection*" "subsubsection*" "paragraph*" "subparagraph*" "emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt" "textbf" "textsc" "textup")))))
  '(TeX-fold-type-list (quote (macro math)))
  '(ecb-options-version "2.40")
- '(ede-project-directories (quote ("/home/bulkin/src/prj/msp430/g2553")))
+ '(ede-project-directories (quote ("/home/bulkin/src/wrk/gis/georef/CarverPlugin/utils" "/home/bulkin/src/prj/msp430/g2553")))
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions (quote ((egg-status-buffer-mode kill) (egg-log-buffer-mode kill) (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill) (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill))))
  '(fill-column 78)
@@ -22,8 +22,10 @@
  '(semantic-c-dependency-system-include-path (quote ("/usr/include" "/usr/msp430/include")))
  '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
  '(transient-mark-mode t)
+ '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
  '(vc-directory-exclusion-list (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
- '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch))))
+ '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch)))
+ '(verilog-indent-level-module 3))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -45,7 +47,6 @@
 ;; (push "/usr/share/maxima/5.14.0/emacs" load-path)
 (push "/usr/local/share/emacs/site-lisp" load-path)
 (push "~/.emacs.d/modes/spice-mode" load-path)
-(push "~/.emacs.d/modes/egg" load-path)
 (push "~/.emacs.d/modes/elim" load-path)
 (push "~/.emacs.d/modes/imaxima-imath" load-path)
 (push "~/.emacs.d/modes" load-path)
@@ -86,6 +87,7 @@
 ;; (require 'ido)
 ;; (ido-mode t)
 
+(setq column-number-mode t)
 
 (set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
 

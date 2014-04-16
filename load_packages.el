@@ -6,8 +6,11 @@
 (package-initialize)
 
 ;; Used packages:
+;;    egg
 ;;    elpy
 ;;    smart-tabs-mode
+
+;; (require 'egg)
 
 (elpy-enable)
 (elpy-use-ipython)

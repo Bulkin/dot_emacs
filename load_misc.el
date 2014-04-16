@@ -1,3 +1,5 @@
+(require 'uniquify)
+
 ;;; imaxima
 (autoload 'imaxima "imaxima" "Maxima frontend" t)
 (autoload 'imath "imath" "Interactive Math mode" t)
