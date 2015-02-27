@@ -85,10 +85,11 @@ and `buftoggle-search-path-alist' for paths where related files are searched."
       (destructuring-bind (regex . rel-paths) path
         (when (string-match regex base-path)
           (dolist (rel-path rel-paths)
-            (push (expand-file-name rel-path
-                                    (file-name-as-directory
-                                     (substring base-path 0 (match-end 0))))
-                  paths)))))))
+            (when (file-directory-p rel-path)
+              (push (expand-file-name rel-path
+                                      (file-name-as-directory
+                                       (substring base-path 0 (match-end 0))))
+                    paths))))))))
 
 (defun buftoggle-find-pair (base-path exts)
   (loop for ext in exts
