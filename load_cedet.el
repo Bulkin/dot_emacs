@@ -39,10 +39,8 @@
 ;; (require 'semantic-ia)
 ;; (require 'semantic-gcc)
 ;; semantic dirs
-(semantic-add-system-include "/usr/include/qt4" 'c++-mode)
+
 (semantic-add-system-include "/usr/msp430/include" 'c-mode)
-(add-to-list 'auto-mode-alist (cons "/usr/include/qt4" 'c++-mode))
-;; (add-to-list 'semantic-lex-c-preprocessor-symbol-file "/usr/include/qt4/Qt/qconfig.h")
 
 (setf semantic-idle-scheduler-idle-time 0.5)
 
@@ -51,13 +49,14 @@
 
 (semantic-mode 1)
 
-(require 'eassist)
+(require 'buftoggle)
+
+(defvar custom-c-common-hook nil "functions to run after the cedet-hook runs")
 
 (defun my-c-mode-cedet-hook ()
   (autopair-mode 1)
   (auto-fill-mode 0)
   (fci-mode 1)
-  (setq indent-tabs-mode t)
   (local-set-key "." 'semantic-complete-self-insert)
   (local-set-key ">" 'semantic-complete-self-insert)
   (local-set-key [(control return)] 'semantic-ia-complete-symbol)
@@ -72,12 +71,16 @@
   (local-set-key "\C-ct" 'semantic-analyze-proto-impl-toggle)
   (local-set-key "\C-ci" 'semantic-decoration-include-visit)
   (local-set-key "\C-cr" 'semantic-symref-symbol)
-  (local-set-key "\C-ch" 'eassist-switch-h-cpp)
+  (local-set-key "\C-ch" 'buftoggle)
   (local-set-key "\C-cC" 'compile)
+  (local-set-key "\C-ca" 'align)
   (local-set-key "\C-c\C-d" 'gdb-many-windows))
+  ;; (when custom-c-common-hook
+  ;;   (message "running custom-c-common-hook")
+  ;;   (mapcar 'funcall custom-c-common-hook)))
 (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
  
-(defvar prefer-c-mode t "Prefer c-mode to c++-mode when opening h-files")
+(defvar prefer-c-mode nil "Prefer c-mode to c++-mode when opening h-files")
 
 (defun c-c++-header ()
   "Sets either c-mode or c++-mode, whichever is appropriate for
@@ -85,9 +88,25 @@ header"
   (interactive)
   (cond ((directory-files default-directory nil ".*c[cpx][px]?")
          (c++-mode))
-        ((directory-files default-directory nil ".*\.c")
+        ((directory-files default-directory nil ".*\\.c")
          (c-mode))
         (t (if prefer-c-mode 
                (c-mode)
              (c++-mode)))))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
+
+
+(defadvice align-regexp (around align-regexp-with-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+
+(defadvice align (around align-with-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+
+;;;; Qt
+(add-to-list 'auto-mode-alist (cons "/usr/include/qt4" 'c++-mode))
+;; (add-to-list 'semantic-lex-c-preprocessor-symbol-file "/usr/include/qt4/Qt/qconfig.h")
+(semantic-add-system-include "/usr/include/qt4" 'c++-mode)
+(load-file "~/.emacs.d/modes/qmake.el")
+(add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))

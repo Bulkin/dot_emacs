@@ -3,12 +3,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-fold-macro-spec-list (quote (("[f]" ("footnote" "marginpar")) ("[c]" ("cite")) ("[l]" ("label")) ("[r]" ("ref" "pageref" "eqref")) ("[i]" ("index" "glossary")) ("*{1}" ("item")) ("..." ("dots")) ("(C)" ("copyright")) ("(R)" ("textregistered")) ("TM" ("texttrademark")) (1 ("part" "chapter" "section" "subsection" "subsubsection" "paragraph" "subparagraph" "part*" "chapter*" "section*" "subsection*" "subsubsection*" "paragraph*" "subparagraph*" "emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt" "textbf" "textsc" "textup")))))
  '(TeX-fold-type-list (quote (macro math)))
- '(ecb-options-version "2.40")
- '(ede-project-directories (quote ("/home/bulkin/src/wrk/gis/georef/CarverPlugin/utils" "/home/bulkin/src/prj/msp430/g2553")))
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default)))
  '(egg-mode-key-prefix "C-x v")
- '(egg-quit-window-actions (quote ((egg-status-buffer-mode kill) (egg-log-buffer-mode kill) (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill) (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill))))
+ '(egg-quit-window-actions
+   (quote
+    ((egg-status-buffer-mode kill)
+     (egg-log-buffer-mode kill)
+     (egg-commit-buffer-mode kill)
+     (egg-reflog-buffer-mode kill)
+     (egg-diff-buffer-mode kill)
+     (egg-file-log-buffer-mode kill))))
+ '(elpy-rpc-backend "jedi")
+ '(fci-rule-color "#469bd2")
  '(fill-column 78)
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
@@ -16,49 +25,46 @@
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
+ '(python-shell-interpreter "ipython3")
  '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
  '(ropemacs-codeassist-maxfixes 3)
  '(ropemacs-guess-project t)
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+           (fboundp
+            (quote rainbow-mode))
+           (rainbow-mode 1))
+     (smart-tabs-mode)
+     (c-file-style . linux)
+     (c-file-style . stroustrup)
+     (c-file-style . java)
+     (indent-tabs-mode . true)
+     (eval progn
+           (c-set-offset
+            (quote innamespace)
+            (quote 0))
+           (c-set-offset
+            (quote inline-open)
+            (quote 0))))))
  '(semantic-c-dependency-system-include-path (quote ("/usr/include" "/usr/msp430/include")))
  '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
+ '(session-use-package t nil (session))
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
- '(vc-directory-exclusion-list (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
+ '(vc-directory-exclusion-list
+   (quote
+    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch)))
  '(verilog-indent-level-module 3))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:family "*"))))
- '(info-menu-header ((t (:inherit nil :weight bold))))
- '(info-title-1 ((t (:inherit nil :weight bold :height 1.8))))
- '(info-title-4 ((t (:inherit nil :weight bold))))
- '(irfc-table-item-face ((t (:foreground "HotPink4"))))
- '(irfc-title-face ((t (:foreground "DarkGoldenrod3" :weight bold))))
- '(isearch ((((class color) (min-colors 88) (background light)) (:background "magenta2" :foreground "black"))))
- '(tooltip ((((class color)) (:inherit nil :background "lightyellow" :foreground "black"))))
- '(variable-pitch ((t nil)))
- '(which-func ((((class color) (min-colors 88) (background light)) (:inherit mode-line)))))
 
 ;; ---------- Functional ------------
 (push "/usr/share/emacs/site-lisp" load-path)
-;; (push "/usr/share/maxima/5.14.0/emacs" load-path)
 (push "/usr/local/share/emacs/site-lisp" load-path)
-(push "~/.emacs.d/modes/spice-mode" load-path)
-(push "~/.emacs.d/modes/elim" load-path)
-(push "~/.emacs.d/modes/imaxima-imath" load-path)
+(push "~/.emacs.d/modes/solarized-contrast" load-path)
 (push "~/.emacs.d/modes" load-path)
-(push "~/.emacs.d" load-path)
 
 (setenv "PAGER" "cat")
-
-(require 'color-theme)
-(if (symbol-value 'window-system) 
-    (progn
-      (color-theme-initialize)
-      (color-theme-pierson)))
 
 ;; (require 'site-gentoo)
 
@@ -71,10 +77,10 @@
 (global-set-key "\C-x\C-k" 'kill-other-buffer)
 
 ;; (require 'ecb)
-(require 'elscreen)
+;; (require 'elscreen)
 
 ;; switching buffers
-(iswitchb-mode 1)
+(ido-mode 1)
 (defun iswitchb-local-keys ()
   (mapc (lambda (K) 
 	  (let* ((key (car K)) (fun (cdr K)))
@@ -89,7 +95,7 @@
 
 (setq column-number-mode t)
 
-(set-default-font "-xos4-terminus-medium-*-normal-*-16-*-*-*-*-*-*-*")
+(set-default-font "-xos4-terminus-medium-*-normal-*-18-*-*-*-*-*-*-*")
 
 ;; ascii-term colors
 (setq ansi-color-names-vector
@@ -111,7 +117,7 @@
 (tool-bar-mode -1)
 
 ;; remove scrollbar
-(scroll-bar-mode 1)
+(scroll-bar-mode 0)
 
 ;; Always end a file with a newline
 (setq require-final-newline t)
@@ -150,14 +156,6 @@
 (global-set-key "\C-\M-a" 'beginning-of-defun)
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
-(require 'autopair)
-;; (autopair-global-mode)
-;; fix autopair in sldb
-(add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))
-(add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
-(add-hook 'slime-repl-mode-hook
-		  #'(lambda () (setq autopair-dont-activate t)))
-
 
 ;;---------- additional modes ----------
 (defun linux-c-mode ()
@@ -169,14 +167,58 @@
   (setq indent-tabs-mode t)
   (setq c-basic-offset 8))
 
-(put 'upcase-region 'disabled nil)
+(c-add-style "shurik-cpp"
+             '("linux"
+               (indent-tabs-mode . nil)
+               (tab-width . 4)
+               (c-basic-offset . 2)
+               (c++-indent-level . 2)
+               (c-offsets-alist . ((innamespace . 0)))))
 
-;; load lang-specific options
+(c-add-style "base-cpp"
+             '("linux"
+               (indent-tabs-mode . t)
+               (tab-width . 4)
+               (c-basic-offset . 4)
+               (c++-indent-level . 4)
+               (c-offsets-alist . ((innamespace . 0)))))
+
+(defun shurik-cpp-mode ()
+  (interactive)
+  (c++-mode)
+  (smart-tabs-mode nil)
+  (c-set-style "java")
+  (setq tab-width 4)
+  (setq indent-tabs-mode nil)
+  (setq c-basic-offset 2))
+               
+
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+;;;; load lang-specific options
 (load-file "~/.emacs.d/load_cedet.el")
 (load-file "~/.emacs.d/load_packages.el")
 ;;(load-file "~/.emacs.d/load_python.el")
-
 (load-file "~/.emacs.d/load_misc.el")
+
+;; solarized requires dash
+(require 'solarized)
+(load-theme 'solarized-light t)
+
+(let ((proj-file "~/.emacs.d/load_projects.el"))
+  (if (file-readable-p proj-file)
+      (load-file proj-file)))
 
 ;;(require 'irfc)
 ;;(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
+
+(setq c-default-style '((c-mode . "gnu")
+                        (c++-mode . "base-cpp")
+                        (other . "gnu")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

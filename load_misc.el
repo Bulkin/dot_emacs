@@ -107,3 +107,4 @@
 (setq reftex-plug-into-AUCTeX t)
 (setq reftex-isearch-document t)
 (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
+

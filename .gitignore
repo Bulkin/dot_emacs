@@ -6,7 +6,8 @@ elim/*
 games/*
 history
 image-dired/*
-modes/*
 slime/*
+elpa/*
 tramp
 
+load_projects.el
