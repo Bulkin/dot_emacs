@@ -6,17 +6,31 @@
 
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
 (package-initialize)
 
-;; Used packages:
-;;    egg
-;;    elpy
-;;    smart-tabs-mode
-;;    fci-mode
-;;    cuda-mode
-;;    qml-mode
-;;    dash  -- for solarized-contrast
-;;    autopair
+(defvar used-packages
+  '(autopair
+    cuda-mode
+    dash ;; for solarized-contrast
+    egg
+    elpy
+    fill-column-indicator
+    qml-mode
+    smart-tabs-mode))
+
+(unless
+    (reduce (lambda (x y) (and x y))
+            (mapcar (lambda (x) (package-installed-p x))
+                    used-packages))
+  (message "Refreshing packages")
+  (package-refresh-contents)
+  (message "Installing missing packages")
+  (dolist (p used-packages)
+    (unless (package-installed-p p)
+      (package-install p))))
+
+
 (require 'egg)
 
 (elpy-enable)
