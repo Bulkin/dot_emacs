@@ -304,7 +304,7 @@ customize the resulting theme."
      `(link-visited ((,class (:foreground ,yellow :underline t :weight normal))))
      `(success ((,class (:foreground ,green ))))
      `(warning ((,class (:foreground ,yellow ))))
-     `(error ((,class (:foreground ,orange))))
+     `(error ((,class (:foreground ,orange :underline t))))
      `(lazy-highlight ((,class (:foreground ,base03 :background ,yellow
                                             :weight normal))))
      '(button ((t (:underline t))))
@@ -313,16 +313,16 @@ customize the resulting theme."
      `(compilation-column-number ((,class (:inherit font-lock-doc-face :foreground ,cyan
                                                     :underline nil))))
      `(compilation-enter-directory-face ((,class (:foreground ,green :underline nil))))
-     `(compilation-error ((,class (:inherit error :underline nil))))
-     `(compilation-error-face ((,class (:foreground ,red : :underline nil))))
+     `(compilation-error ((,class (:inherit error :underline t :weight bold))))
+     `(compilation-error-face ((,class (:foreground ,red : :underline t :weight bold))))
      `(compilation-face ((,class (:foreground ,base0 :underline nil))))
      `(compilation-info ((,class (:foreground ,base01 :underline nil :bold nil))))
      `(compilation-info-face ((,class (:foreground ,blue :underline nil))))
      `(compilation-leave-directory-face ((,class (:foreground ,green :underline nil))))
      `(compilation-line-face ((,class (:foreground ,green :underline nil))))
      `(compilation-line-number ((,class (:foreground ,green :underline nil))))
-     `(compilation-warning ((,class (:inherit warning :underline nil))))
-     `(compilation-warning-face ((,class (:foreground ,yellow :weight normal :underline nil))))
+     `(compilation-warning ((,class (:inherit warning :underline t))))
+     `(compilation-warning-face ((,class (:foreground ,yellow :weight normal :underline t))))
 
      `(compilation-mode-line-exit
        ((,class (:inherit compilation-info :foreground ,green :weight bold))))
@@ -397,7 +397,7 @@ customize the resulting theme."
      `(erm-syn-errline ((,class (:inherit flymake-errline))))
      `(erm-syn-warnline ((,class (:inherit flymake-warnline))))
 ;;;;; grep
-     `(grep-context-face ((,class (:foreground ,base0))))
+     `(grep-context-face ((,class (:foreground ,base0 :undeline t))))
      `(grep-error-face ((,class (:foreground ,red :weight bold :underline t))))
      `(grep-hit-face ((,class (:foreground ,blue))))
      `(grep-match-face ((,class (:foreground ,orange :weight bold))))
