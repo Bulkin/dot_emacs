@@ -7,6 +7,7 @@
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default)))
+ '(dired-listing-switches "-alh")
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions
    (quote
@@ -17,11 +18,15 @@
      (egg-diff-buffer-mode kill)
      (egg-file-log-buffer-mode kill))))
  '(elpy-rpc-backend "jedi")
+ '(enable-remote-dir-locals t)
  '(fci-rule-color "#469bd2")
  '(fill-column 78)
+ '(grep-command "grep -nHEr  ")
+ '(grep-template "grep <X> <C> -nHEr <R> <F>")
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
  '(mlint-programs (quote ("" "")))
+ '(paradox-github-token t)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
@@ -175,7 +180,6 @@
                (c++-indent-level . 4)
                (c-offsets-alist . ((topmost-intro-cont . 0)
                                    (inline-open . 0)
-                                   (statement-cont . 0)
                                    (innamespace . 0)))))
 (c-add-style "shurik-cpp"
              '("base-cpp"
@@ -183,6 +187,13 @@
                (tab-width . 4)
                (c-basic-offset . 2)
                (c++-indent-level . 2)))
+
+(c-add-style "spaces-cpp"
+             '("base-cpp"
+               (indent-tabs-mode . nil)
+               (tab-width . 4)
+               (c-basic-offset . 4)
+               (c++-indent-level . 4)))
 
 
 (put 'upcase-region 'disabled nil)
