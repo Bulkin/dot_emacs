@@ -21,8 +21,8 @@
  '(enable-remote-dir-locals t)
  '(fci-rule-color "#469bd2")
  '(fill-column 78)
- '(grep-command "grep -nHEr  ")
- '(grep-template "grep <X> <C> -nHEr <R> <F>")
+ ;;'(grep-command "grep -nHEr  ")
+ ;;'(grep-template "grep <X> <C> -nHEr <R> <F>")
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
  '(mlint-programs (quote ("" "")))
@@ -31,9 +31,12 @@
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
  '(python-shell-interpreter "ipython3")
+ '(racer-cmd "/home/bulkin/.cargo/bin/racer")
+ '(racer-rust-src-path "/home/bulkin/src/remote/src_big/rust/src")
  '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
  '(ropemacs-codeassist-maxfixes 3)
  '(ropemacs-guess-project t)
+ '(rust-rustfmt-bin "/home/bulkin/.cargo/bin/rustfmt")
  '(safe-local-variable-values
    (quote
     ((eval when
@@ -157,7 +160,7 @@
 (setq auto-save-file-name-transforms `(("\\([^/]*/\\)*\\([^/]*\\)\\'" "~/.emacs.d/autosaves/\\2" t)))
 
 ;; global keybindings
-(global-set-key "\C-xr" 'revert-buffer)
+(global-set-key "\C-xR" 'revert-buffer)
 (global-set-key "\C-\M-a" 'beginning-of-defun)
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
@@ -204,6 +207,7 @@
 (load-file "~/.emacs.d/load_packages.el")
 ;;(load-file "~/.emacs.d/load_python.el")
 (load-file "~/.emacs.d/load_misc.el")
+(load-file "~/.emacs.d/load_rust.el")
 
 ;; solarized requires dash
 (require 'solarized)
