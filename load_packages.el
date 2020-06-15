@@ -10,17 +10,21 @@
 (package-initialize)
 
 (defvar used-packages
-  '(autopair
+  '(ace-window
+    autopair
     cuda-mode
     dash ;; for solarized-contrast
     egg
     elpy
     fill-column-indicator
     haskell-mode
+    jupyter
+    multiple-cursors
     paredit
     qml-mode
     slime
-    smart-tabs-mode))
+    smart-tabs-mode
+    sr-speedbar))
 
 (unless
     (reduce (lambda (x y) (and x y))
@@ -33,12 +37,22 @@
     (unless (package-installed-p p)
       (package-install p))))
 
+(global-set-key (kbd "M-O") #'ace-window)
 
 (require 'egg)
 
 (elpy-enable)
-(elpy-use-ipython)
-(setq python-shell-interpreter-args "--colors Linux --no-autoindent")
+(setenv "JUPYTER_CONSOLE_TEST" "1")
+(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
+
+(setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "--simple-prompt -i")
+
+;; (setq python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+;;              "jupyter")
 
 ;;(require 'python-mode)
 
@@ -65,7 +79,13 @@
 
 ;; haskell-mode
 (add-hook 'haskell-mode-hook 'haskell-indent-mode)
+;;(add-hook 'haskell-mode-hook 'intero-mode)
 
+;; multiple cursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; paredit load hooks
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
@@ -75,3 +95,14 @@
 (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+
+;; Proper speedbar
+(require 'sr-speedbar)
+(setq speedbar-use-images nil)
+
+;; org-mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (jupyter . t)))
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)

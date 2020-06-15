@@ -1,3 +1,9 @@
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+;; (package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,16 +27,21 @@
  '(enable-remote-dir-locals t)
  '(fci-rule-color "#469bd2")
  '(fill-column 78)
- ;;'(grep-command "grep -nHEr  ")
- ;;'(grep-template "grep <X> <C> -nHEr <R> <F>")
+ '(grep-use-null-device nil)
+ '(inferior-octave-startup-args (quote ("-i" "--line-editing")))
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
  '(mlint-programs (quote ("" "")))
+ '(org-export-backends (quote (ascii html icalendar latex md odt)))
+ '(package-selected-packages
+   (quote
+    (ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode magit intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime racer qml-mode polymode paredit paradox multiple-cursors matlab-mode markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator egg cuda-mode company-racer autopair)))
  '(paradox-github-token t)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
  '(python-shell-interpreter "ipython3")
+ '(python-shell-interpreter-args "--colors Linux --no-autoindent")
  '(racer-cmd "/home/bulkin/.cargo/bin/racer")
  '(racer-rust-src-path "/home/bulkin/src/remote/src_big/rust/src")
  '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
@@ -39,7 +50,8 @@
  '(rust-rustfmt-bin "/home/bulkin/.cargo/bin/rustfmt")
  '(safe-local-variable-values
    (quote
-    ((eval when
+    ((org-confirm-babel-evaluate)
+     (eval when
            (fboundp
             (quote rainbow-mode))
            (rainbow-mode 1))
@@ -56,7 +68,6 @@
             (quote inline-open)
             (quote 0))))))
  '(semantic-c-dependency-system-include-path (quote ("/usr/include" "/usr/msp430/include")))
- '(semantic-python-dependency-system-include-path (quote ("/usr/lib/python2.7")))
  '(session-use-package t nil (session))
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
@@ -66,11 +77,22 @@
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch)))
  '(verilog-indent-level-module 3))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bold ((t (:weight bold :family "Terminus"))))
+ '(variable-pitch ((t (:family "Terminus")))))
+
+
 ;; ---------- Functional ------------
 (push "/usr/share/emacs/site-lisp" load-path)
 (push "/usr/local/share/emacs/site-lisp" load-path)
 (push "~/.emacs.d/modes/solarized-contrast" load-path)
 (push "~/.emacs.d/modes" load-path)
+
+(windmove-default-keybindings)
 
 (setenv "PAGER" "cat")
 
@@ -103,7 +125,9 @@
 
 (setq column-number-mode t)
 
-(set-default-font "-xos4-terminus-medium-*-normal-*-18-*-*-*-*-*-*-*")
+;;(set-frame-font "-xos4-terminus-medium-*-normal-*-18-*-*-*-*-*-*-*")
+;;(set-frame-font "Terminus 14")
+(set-frame-font "xos4 Terminus 14")
 
 ;; ascii-term colors
 (setq ansi-color-names-vector
@@ -164,6 +188,9 @@
 (global-set-key "\C-\M-a" 'beginning-of-defun)
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
+;; window navigation
+(windmove-default-keybindings 'super)
+(global-set-key (kbd "C-x o") 'ace-window)
 
 ;;---------- additional modes ----------
 (defun linux-c-mode ()
@@ -181,9 +208,12 @@
                (tab-width . 4)
                (c-basic-offset . 4)
                (c++-indent-level . 4)
-               (c-offsets-alist . ((topmost-intro-cont . 0)
+               (c-offsets-alist . ((arglist-cont-nonempty . c-lineup-arglist-intro-after-paren)
+                                   (topmost-intro-cont . 0)
                                    (inline-open . 0)
-                                   (innamespace . 0)))))
+                                   (innamespace . 0)
+                                   (inlambda . 0)
+                                   (statement-cont . +)))))
 (c-add-style "shurik-cpp"
              '("base-cpp"
                (indent-tabs-mode . nil)
@@ -199,6 +229,11 @@
                (c++-indent-level . 4)))
 
 
+(setq c-default-style '((c-mode . "gnu")
+                        (c++-mode . "base-cpp")
+                        (other . "gnu")))
+
+
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
@@ -208,6 +243,7 @@
 ;;(load-file "~/.emacs.d/load_python.el")
 (load-file "~/.emacs.d/load_misc.el")
 (load-file "~/.emacs.d/load_rust.el")
+(load-file "~/.emacs.d/nyquist-mode.el")
 
 ;; solarized requires dash
 (require 'solarized)
@@ -215,17 +251,7 @@
 
 (let ((proj-file "~/.emacs.d/load_projects.el"))
   (if (file-readable-p proj-file)
-      (load-file proj-file)))
+      (or t (load-file proj-file))))
 
 ;;(require 'irfc)
 ;;(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
-
-(setq c-default-style '((c-mode . "gnu")
-                        (c++-mode . "base-cpp")
-                        (other . "gnu")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -5,8 +5,6 @@
 (autoload 'imath "imath" "Interactive Math mode" t)
 (setq imaxima-fnt-size "Large")
 
-(require 'egg)
-
 (autoload 'cuda-mode "cuda-mode" "Mode for cuda" t)
 ;; (setq auto-mode-alist (append (list (cons "\\.cu$" 'cuda-mode)) auto-mode-alist))
 
@@ -38,15 +36,12 @@
 
 
 ;; setup octave-mode
-(autoload 'octave-mode "octave-mod" nil t)
 (setq auto-mode-alist
 	  (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (add-hook 'octave-mode-hook
 		  (lambda ()
-			(abbrev-mode 1)
-			(auto-fill-mode 1)
-			(if (eq window-system 'x)
-				(font-lock-mode 1))))
+			(abbrev-mode 0)
+			(auto-fill-mode 0)))
 (setq octave-block-offset 4)
 
 ;;---------- session autoload ----------
@@ -62,7 +57,7 @@
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
 (setq-default ispell-dictionary "english")
-(setq-default auto-fill-function 'do-auto-fill)
+
 ;; toggle shell escape using C-c C-t C-x
 (defun TeX-toggle-escape nil (interactive)
   (setq LaTeX-command

@@ -104,9 +104,19 @@ header"
   (let ((indent-tabs-mode nil))
     ad-do-it))
 
+(defadvice c-lineup-arglist (around my activate)
+  "Improve indentation of continued C++11 lambda function opened as argument."
+  (setq ad-return-value
+        (if (and (equal major-mode 'c++-mode)
+                 (ignore-errors
+                   (save-excursion
+                     (goto-char (c-langelem-pos langelem))
+                     ;; Detect "[...](" or "[...]{". preceded by "," or "(",
+                     ;;   and with unclosed brace.
+                     (looking-at ".*[(,][ \t]*\\[[^]]*\\][ \t]*[({][^}]*$"))))
+            0                           ; no additional indent
+          ad-do-it)))
+
 ;;;; Qt
-(add-to-list 'auto-mode-alist (cons "/usr/include/qt4" 'c++-mode))
-;; (add-to-list 'semantic-lex-c-preprocessor-symbol-file "/usr/include/qt4/Qt/qconfig.h")
-(semantic-add-system-include "/usr/include/qt4" 'c++-mode)
 (load-file "~/.emacs.d/modes/qmake.el")
 (add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))

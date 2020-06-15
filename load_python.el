@@ -6,46 +6,53 @@
 ;;(add-to-list 'auto-mode-alist '("\\.py\\'" . python3-mode))
 ;;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;; rope
-(require 'pymacs)
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
-(pymacs-load "ropemacs" "rope-")
+(setq ipython-command "/usr/bin/ipython3")
+    
+(setq python-shell-interpreter-args "--simple-prompt")
 
-;; Stops from erroring if there's a syntax err
-(setq ropemacs-codeassist-maxfixes 3)
+(defun absolute-dirname (path)
+  "Return the directory name portion of a path.
 
-;; Configurations
-(setq ropemacs-guess-project t)
-(setq ropemacs-enable-autoimport t)
-(setq ropemacs-autoimport-modules '("os" "shutil" "sys" "logging"
-									"subprocess" "threading"
-									"django.*"))
+If PATH is local, return it unaltered.
+If PATH is remote, return the remote diretory portion of the path."
+  (if (tramp-tramp-file-p path)
+      (elt (tramp-dissect-file-name path) 3)
+    path))
 
-(setq ropemacs-enable-shortcuts nil)
+(defun run-virtualenv-python (env)
+  "Run Python in this virtualenv."
+  (interactive "DPath to virtualenv: ")
+  (let ((env-root (locate-dominating-file
+                   (or env default-directory) "bin/python")))
+    (apply 'run-python
+           (when env-root
+             (list (concat "env LD_PRELOAD=/home/bulkin/src/rli/rlisynt/build/rlisyntlib/librlisynt.so "
+                    (absolute-dirname env-root) "bin/python")))
+           )))
+
+;; Remove "Warning (python): Python shell prompts cannot be detected."
+;;(setq python-shell-unbuffered nil) -- doesn't work
+
+(defun my-restart-python-console ()
+  "Restart python console before evaluate buffer or region to
+avoid various uncanny conflicts, like not reloding modules even
+when they are changed"
+  (interactive)
+  (kill-process "Python")
+  (sleep-for 0.1)
+  (kill-buffer "*Python*")
+  (elpy-shell-send-region-or-buffer))
+
 (defun python-init  ()
-  (local-set-key "\C-cg" 'rope-goto-definition)
-  (local-set-key "\C-cf" 'rope-find-occurrences)
-  (local-set-key "\C-cd" 'rope-show-doc)
-  (setq indent-tabs-mode nil)
-  (cond ((file-exists-p ".ropeproject")
-		 (rope-open-project default-directory))
-		((file-exists-p "../.ropeproject")
-		 (rope-open-project (concat default-directory "..")))))
+  (local-set-key "\C-c\C-c" 'my-restart-python-console))
 (add-hook 'python-mode-hook 'python-init)
-(add-hook 'python2-mode-hook 'python-init)
-(add-hook 'python3-mode-hook 'python-init)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-hook 'elpy-mode-hook 'python-init)
 
-;;(setq ipython-command "/usr/bin/ipython3")
-;;(require 'ipython)
-;;(push "~/.emacs.d/modes/emacs-for-python" load-path)
-;; (load-file "~/.emacs.d/modes/emacs-for-python/epy-init.el")
-;;(require 'epy-setup)
-;;(require 'epy-python)
-;;(require 'epy-completion)
-;;(setf python-indent-levels '(0 4 8 12))
+;; fix ipython prompt? 
+(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
 
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter")
