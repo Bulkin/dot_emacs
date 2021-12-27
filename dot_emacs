@@ -9,33 +9,33 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-fold-type-list (quote (macro math)))
+ '(TeX-fold-type-list '(macro math))
  '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default)))
+   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
+ '(default-input-method "russian-computer")
  '(dired-listing-switches "-alh")
+ '(doc-view-conversion-refresh-interval 0)
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions
-   (quote
-    ((egg-status-buffer-mode kill)
+   '((egg-status-buffer-mode kill)
      (egg-log-buffer-mode kill)
      (egg-commit-buffer-mode kill)
      (egg-reflog-buffer-mode kill)
      (egg-diff-buffer-mode kill)
-     (egg-file-log-buffer-mode kill))))
+     (egg-file-log-buffer-mode kill)))
  '(elpy-rpc-backend "jedi")
  '(enable-remote-dir-locals t)
- '(fci-rule-color "#469bd2")
  '(fill-column 78)
  '(grep-use-null-device nil)
- '(inferior-octave-startup-args (quote ("-i" "--line-editing")))
+ '(inferior-octave-startup-args '("-i" "--line-editing"))
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
- '(mlint-programs (quote ("" "")))
- '(org-export-backends (quote (ascii html icalendar latex md odt)))
+ '(lsp-keep-workspace-alive nil)
+ '(lsp-restart 'interactive)
+ '(mlint-programs '("" ""))
+ '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   (quote
-    (ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode magit intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime racer qml-mode polymode paredit paradox multiple-cursors matlab-mode markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator egg cuda-mode company-racer autopair)))
+   '(cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator egg autopair))
  '(paradox-github-token t)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
@@ -44,16 +44,24 @@
  '(python-shell-interpreter-args "--colors Linux --no-autoindent")
  '(racer-cmd "/home/bulkin/.cargo/bin/racer")
  '(racer-rust-src-path "/home/bulkin/src/remote/src_big/rust/src")
- '(reftex-bibpath-environment-variables (quote ("BIBINPUTS" "TEXBIB" ".")))
+ '(reftex-bibpath-environment-variables '("BIBINPUTS" "TEXBIB" "."))
  '(ropemacs-codeassist-maxfixes 3)
  '(ropemacs-guess-project t)
  '(rust-rustfmt-bin "/home/bulkin/.cargo/bin/rustfmt")
  '(safe-local-variable-values
-   (quote
-    ((org-confirm-babel-evaluate)
+   '((eval ignore-errors
+           (require 'whitespace)
+           (whitespace-mode 1))
+     (whitespace-line-column . 79)
+     (whitespace-style face indentation)
+     (eval progn
+           (c-set-offset 'case-label '0)
+           (c-set-offset 'innamespace '0)
+           (c-set-offset 'inline-open '0))
+     (indent-tabs-mode . 1)
+     (org-confirm-babel-evaluate)
      (eval when
-           (fboundp
-            (quote rainbow-mode))
+           (fboundp 'rainbow-mode)
            (rainbow-mode 1))
      (smart-tabs-mode)
      (c-file-style . linux)
@@ -61,21 +69,17 @@
      (c-file-style . java)
      (indent-tabs-mode . true)
      (eval progn
-           (c-set-offset
-            (quote innamespace)
-            (quote 0))
-           (c-set-offset
-            (quote inline-open)
-            (quote 0))))))
- '(semantic-c-dependency-system-include-path (quote ("/usr/include" "/usr/msp430/include")))
+           (c-set-offset 'innamespace '0)
+           (c-set-offset 'inline-open '0))))
+ '(semantic-c-dependency-system-include-path '("/usr/include" "/usr/msp430/include"))
  '(session-use-package t nil (session))
  '(transient-mark-mode t)
- '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
+ '(uniquify-buffer-name-style 'post-forward nil (uniquify))
  '(vc-directory-exclusion-list
-   (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
- '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Hg Arch)))
- '(verilog-indent-level-module 3))
+   '("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}"))
+ '(vc-handled-backends '(RCS CVS SVN SCCS Bzr Hg Arch))
+ '(verilog-indent-level-module 3)
+ '(winner-mode t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -191,6 +195,18 @@
 ;; window navigation
 (windmove-default-keybindings 'super)
 (global-set-key (kbd "C-x o") 'ace-window)
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-O") (lambda ()
+                              (interactive)
+                              (other-window -1)))
+(winner-mode 1)
+
+;; eshell proper tab
+(setq eshell-cmpl-cycle-completions nil)
+
+;; C-Ret starts rectangle selection with visual highlighting
+(define-globalized-minor-mode my-global-cua-selection-mode cua-selection-mode
+  (lambda () (cua-selection-mode 1)))
 
 ;;---------- additional modes ----------
 (defun linux-c-mode ()
@@ -238,11 +254,11 @@
 (put 'narrow-to-region 'disabled nil)
 
 ;;;; load lang-specific options
-(load-file "~/.emacs.d/load_cedet.el")
+;; (load-file "~/.emacs.d/load_cedet.el")
 (load-file "~/.emacs.d/load_packages.el")
 ;;(load-file "~/.emacs.d/load_python.el")
 (load-file "~/.emacs.d/load_misc.el")
-(load-file "~/.emacs.d/load_rust.el")
+;;(load-file "~/.emacs.d/load_rust.el")
 (load-file "~/.emacs.d/nyquist-mode.el")
 
 ;; solarized requires dash
@@ -255,3 +271,5 @@
 
 ;;(require 'irfc)
 ;;(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
+
+(add-to-list 'tramp-remote-path "~/bin")

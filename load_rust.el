@@ -1,5 +1,5 @@
 ;;(setq racer-cmd "/home/bulkin/.cargo/bin/racer")
-;;(setq racer-rust-src-path "/home/bulkin/src/remote/src_big/rustc-1.9.0/src")
+(setq racer-rust-src-path "/home/bulkin/src/remote/rust/src")
 
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)

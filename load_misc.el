@@ -5,7 +5,7 @@
 (autoload 'imath "imath" "Interactive Math mode" t)
 (setq imaxima-fnt-size "Large")
 
-(autoload 'cuda-mode "cuda-mode" "Mode for cuda" t)
+;; (autoload 'cuda-mode "cuda-mode" "Mode for cuda" t)
 ;; (setq auto-mode-alist (append (list (cons "\\.cu$" 'cuda-mode)) auto-mode-alist))
 
 ;;; add autoload of imaxima and maxima.

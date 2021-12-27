@@ -47,7 +47,7 @@
 (semanticdb-enable-gnu-global-databases 'c-mode t)
 (semanticdb-enable-gnu-global-databases 'c++-mode t)
 
-(semantic-mode 1)
+;;(semantic-mode 1)
 
 (require 'buftoggle)
 
@@ -74,7 +74,8 @@
   (local-set-key "\C-ch" 'buftoggle)
   (local-set-key "\C-cC" 'compile)
   (local-set-key "\C-ca" 'align)
-  (local-set-key "\C-c\C-d" 'gdb-many-windows))
+  (local-set-key "\C-c\C-d" 'gdb-many-windows)
+  (setq paragraph-start "^[  ]*\\(//!\\|//+\\|\\**\\)[  ]*\\([  ]*$\\|@param\\)\\|^\f"))
   ;; (when custom-c-common-hook
   ;;   (message "running custom-c-common-hook")
   ;;   (mapcar 'funcall custom-c-common-hook)))
