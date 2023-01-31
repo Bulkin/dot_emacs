@@ -10,6 +10,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-fold-type-list '(macro math))
+ '(cc-search-directories
+   '("." "/usr/include" "/usr/local/include/*" "\"$PROJECT/*/include\""))
  '(custom-safe-themes
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
  '(default-input-method "russian-computer")
@@ -30,13 +32,16 @@
  '(inferior-octave-startup-args '("-i" "--line-editing"))
  '(ispell-program-name "/usr/bin/aspell")
  '(latex-run-command "pdflatex")
+ '(lsp-clangd-binary-path "clangd")
+ '(lsp-clients-clangd-executable "clangd")
  '(lsp-keep-workspace-alive nil)
  '(lsp-restart 'interactive)
  '(mlint-programs '("" ""))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator egg autopair))
+   '(lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
  '(paradox-github-token t)
+ '(profiler-sampling-interval 100000)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
@@ -77,7 +82,6 @@
  '(uniquify-buffer-name-style 'post-forward nil (uniquify))
  '(vc-directory-exclusion-list
    '("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}"))
- '(vc-handled-backends '(RCS CVS SVN SCCS Bzr Hg Arch))
  '(verilog-indent-level-module 3)
  '(winner-mode t))
 
@@ -89,6 +93,7 @@
  '(bold ((t (:weight bold :family "Terminus"))))
  '(variable-pitch ((t (:family "Terminus")))))
 
+(setq use-package-verbose t)
 
 ;; ---------- Functional ------------
 (push "/usr/share/emacs/site-lisp" load-path)
@@ -132,7 +137,10 @@
 ;;(set-frame-font "-xos4-terminus-medium-*-normal-*-18-*-*-*-*-*-*-*")
 ;;(set-frame-font "Terminus 14")
 (set-frame-font "xos4 Terminus 14")
-
+(set-face-font 'fixed-pitch "xos4 Terminus 14")
+;; the right way to set font?
+(add-to-list 'default-frame-alist
+             '(font . "xos4 Terminus 14"))
 ;; ascii-term colors
 (setq ansi-color-names-vector
       ["#000000" "#b21818" "#18b218" "#BE5F00"
@@ -176,6 +184,14 @@
 ;; Highlight marked region
 (transient-mark-mode t)
 
+;; adjust scrolling after emacs 28 update
+(setq mouse-wheel-scroll-amount '(2
+                                  ((shift)
+                                   . hscroll)
+                                  ((meta))
+                                  ((control)
+                                   . text-scale)))
+
 ;; set default c intendation style
 ;; (setq c-default-style '((c-mode . "k&r") (c++-mode . "k&r") (other . "k&r")))
 
@@ -191,6 +207,7 @@
 (global-set-key "\C-xR" 'revert-buffer)
 (global-set-key "\C-\M-a" 'beginning-of-defun)
 (global-set-key "\C-x\C-b" 'buffer-menu)
+(global-set-key "\C-xB" 'project-switch-to-buffer)
 
 ;; window navigation
 (windmove-default-keybindings 'super)
@@ -245,7 +262,7 @@
                (c++-indent-level . 4)))
 
 
-(setq c-default-style '((c-mode . "gnu")
+(setq c-default-style '((c-mode . "base-cpp")
                         (c++-mode . "base-cpp")
                         (other . "gnu")))
 
@@ -273,3 +290,8 @@
 ;;(add-to-list 'auto-mode-alist '("\\rfc[0-9]+.txt\\'" . irfc-mode))
 
 (add-to-list 'tramp-remote-path "~/bin")
+;; Make tramp faster
+(setq vc-handled-backends '(Git Hg Bzr))
+(advice-add 'ebuild-repo-mode-maybe-enable :around
+            (lambda (f &rest args)
+              (unless (file-remote-p default-directory) (apply f args))))
