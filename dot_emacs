@@ -13,7 +13,7 @@
  '(cc-search-directories
    '("." "/usr/include" "/usr/local/include/*" "\"$PROJECT/*/include\""))
  '(custom-safe-themes
-   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
+   '("d824f0976625bb3bb38d3f6dd10b017bdb4612f27102545a188deef0d88b0cd9" "803aaddee599b43da31fb0fd8fae0fa58b4ef7617c673f07201e3463a3099957" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "d537a9d42c6f5349d1716ae9be9a0645cc168f7aff2a8353819d570e5d02c0b3" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
  '(default-input-method "russian-computer")
  '(dired-listing-switches "-alh")
  '(doc-view-conversion-refresh-interval 0)
@@ -39,7 +39,7 @@
  '(mlint-programs '("" ""))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
+   '(ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
  '(paradox-github-token t)
  '(profiler-sampling-interval 100000)
  '(py-shell-name "python2")
@@ -94,6 +94,9 @@
  '(variable-pitch ((t (:family "Terminus")))))
 
 (setq use-package-verbose t)
+
+;; see https://github.com/emacs-jupyter/jupyter/issues/297
+(setq native-comp-deferred-compilation-deny-list  '(".*jupyter.*"))
 
 ;; ---------- Functional ------------
 (push "/usr/share/emacs/site-lisp" load-path)
@@ -212,10 +215,17 @@
 ;; window navigation
 (windmove-default-keybindings 'super)
 (global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "M-O") (lambda ()
+(if (display-graphic-p)
+    (progn
+      (global-set-key (kbd "M-o") 'other-window)
+      (global-set-key (kbd "M-O") (lambda ()
                               (interactive)
-                              (other-window -1)))
+                              (other-window -1))))
+  (progn
+    (global-set-key (kbd "C-M-o") 'other-window)
+    (global-set-key (kbd "C-O") (lambda ()
+                                  (interactive)
+                                  (other-window -1)))))
 (winner-mode 1)
 
 ;; eshell proper tab
@@ -279,8 +289,10 @@
 (load-file "~/.emacs.d/nyquist-mode.el")
 
 ;; solarized requires dash
-(require 'solarized)
-(load-theme 'solarized-light t)
+(if (display-graphic-p)
+    (progn (require 'solarized)
+           (load-theme 'solarized-light t))
+  (load-theme 'darktooth))
 
 (let ((proj-file "~/.emacs.d/load_projects.el"))
   (if (file-readable-p proj-file)
@@ -295,3 +307,26 @@
 (advice-add 'ebuild-repo-mode-maybe-enable :around
             (lambda (f &rest args)
               (unless (file-remote-p default-directory) (apply f args))))
+
+
+(defun toggle-window-dedicated ()
+"Toggle whether the current active window is dedicated or not"
+(interactive)
+(message
+ (if (let (window (get-buffer-window (current-buffer)))
+       (set-window-dedicated-p window
+                               (not (window-dedicated-p window))))
+     "Window '%s' is dedicated"
+   "Window '%s' is normal")
+ (current-buffer)))
+
+(global-set-key (kbd "C-x w") 'toggle-window-dedicated)
+
+(defun wrap-braces (char)
+  (interactive "cEnter wrapping char")
+  (let ((end (nth 1 (assq char insert-pair-alist)))
+        (parens-require-spaces nil))
+    (insert-pair 1 char end))
+  (backward-char))
+
+(global-set-key (kbd "M-P") 'wrap-braces)

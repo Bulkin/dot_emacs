@@ -14,6 +14,7 @@
     autopair
     counsel
     cuda-mode
+    darktooth-theme
     dash ;; for solarized-contrast
     eglot
     elpy
@@ -27,6 +28,7 @@
     meson-mode
     multiple-cursors
     paredit
+    plantuml-mode
     qml-mode
     qt-pro-mode
     rustic
@@ -117,8 +119,14 @@
  'org-babel-load-languages
  '((python . t)
    (jupyter . t)))
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 
+;;(add-to-list 'native-comp-deferred-compilation-deny-list ".*jupyter.*")
+
+(setq org-babel-python-command "ipython3")
+(setq org-display-remote-inline-images 'cache)
+(setq org-image-actual-width '(800))
+(setq org-src-window-setup 'other-window)
 
 ;; general lsp
 (setq gc-cons-threshold (* 64 1024 1024))
@@ -205,3 +213,8 @@
         (when (bound-and-true-p lsp-mode)
           (message "Reloading lsp-mode in %s" (buffer-name))
           (revert-buffer t (not (buffer-modified-p))))))))
+
+
+;; plantuml
+(setq plantuml-jar-path "/usr/share/plantuml/lib/plantuml.jar")
+(setq plantuml-default-exec-mode 'jar)
