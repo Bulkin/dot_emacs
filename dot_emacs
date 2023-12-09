@@ -330,3 +330,24 @@
   (backward-char))
 
 (global-set-key (kbd "M-P") 'wrap-braces)
+
+(defun list-tramp-hosts ()
+  (cl-remove-duplicates
+   (remove nil
+           (mapcar (lambda (buf)
+                     (let ((name (or (with-current-buffer buf default-directory) "")))
+                       (when (string-match "^\\(/ssh:\\)\\([^:]+\\)" name)
+                         (match-string 2 name))))
+                   (tramp-list-remote-buffers)))
+   :test #'equal))
+
+(defun tramp-close-host-buffers (host)
+  (interactive
+   (let ((completion-ignore-case t))
+     (list (completing-read "Host: " (list-tramp-hosts)))))
+  (dolist (buf (tramp-list-remote-buffers))
+    (when (string-prefix-p (concat "/ssh:" host) (with-current-buffer buf default-directory))
+      (with-current-buffer buf
+        (eglot--managed-mode 0)
+        (undo-tree-mode -1)
+        (kill-buffer buf)))))
