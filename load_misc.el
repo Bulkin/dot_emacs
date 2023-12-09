@@ -50,6 +50,30 @@
 (add-hook 'after-init-hook 'session-initialize)
 
 
+;;-------------- project ---------------
+
+(defcustom project-root-markers
+  '("COPYING")
+  "Files or directories that indicate the root of a project."
+  :type '(repeat string)
+  :group 'project)
+
+(defun project-root-p (path)
+  "Check if the current PATH has any of the project root markers."
+  (catch 'found
+    (dolist (marker project-root-markers)
+      (when (file-exists-p (concat path marker))
+        (throw 'found marker)))))
+
+(defun project-find-root (path)
+  "Search up the PATH for `project-root-markers'."
+  (let ((dir (cl-some (lambda (marker) (locate-dominating-file path marker))
+                      project-root-markers)))
+    (if dir
+        (cons 'transient dir))))
+
+(add-to-list 'project-find-functions #'project-find-root t)
+
 ;;-------------- python ----------------
 
 ;; Run python and pop-up its shell.
