@@ -27,14 +27,17 @@
     magit
     meson-mode
     multiple-cursors
-    paredit
+    ;;paredit
+    lispy
     plantuml-mode
     qml-mode
     qt-pro-mode
     rustic
     slime
     smart-tabs-mode
-    sr-speedbar))
+    sr-speedbar
+    typescript-mode
+    vue-mode))
 
 (unless
     (cl-reduce (lambda (x y) (and x y))
@@ -97,18 +100,31 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; paredit load hooks
-(require 'paredit)
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-;; fix paredit overriding RET in minibuffer
-(define-key paredit-mode-map (kbd "RET") nil)
-(define-key paredit-mode-map (kbd "C-j") 'paredit-newline)
+;; (require 'paredit)
+;; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;; (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+;; (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+;; (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+;; (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+;; ;; fix paredit overriding RET in minibuffer
+;; (define-key paredit-mode-map (kbd "RET") nil)
+;; (define-key paredit-mode-map (kbd "C-j") 'paredit-newline)
 
+;; lispy load hooks
+(require 'lispy)
+(add-hook 'emacs-lisp-mode-hook       (lambda () (lispy-mode 1)))
+(add-hook 'eval-expression-minibuffer-setup-hook (lambda () (lispy-mode 1)))
+(add-hook 'ielm-mode-hook             (lambda () (lispy-mode 1)))
+(add-hook 'lisp-mode-hook             (lambda () (lispy-mode 1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'scheme-mode-hook           (lambda () (lispy-mode 1)))
+(defun conditionally-enable-lispy ()
+  (when (eq this-command 'eval-expression)
+    (lispy-mode 1)))
+(add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
+(define-key lispy-mode-map (kbd "M-o") nil)
 
 ;; Proper speedbar
 (require 'sr-speedbar)
@@ -218,3 +234,7 @@
 ;; plantuml
 (setq plantuml-jar-path "/usr/share/plantuml/lib/plantuml.jar")
 (setq plantuml-default-exec-mode 'jar)
+
+;; python
+(add-hook 'python-mode-hook #'auto-virtualenvwrapper-activate)
+(add-hook 'projectile-after-switch-project-hook #'auto-virtualenvwrapper-activate)

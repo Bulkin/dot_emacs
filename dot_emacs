@@ -13,7 +13,7 @@
  '(cc-search-directories
    '("." "/usr/include" "/usr/local/include/*" "\"$PROJECT/*/include\""))
  '(custom-safe-themes
-   '("d824f0976625bb3bb38d3f6dd10b017bdb4612f27102545a188deef0d88b0cd9" "803aaddee599b43da31fb0fd8fae0fa58b4ef7617c673f07201e3463a3099957" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "d537a9d42c6f5349d1716ae9be9a0645cc168f7aff2a8353819d570e5d02c0b3" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
+   '("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "d824f0976625bb3bb38d3f6dd10b017bdb4612f27102545a188deef0d88b0cd9" "803aaddee599b43da31fb0fd8fae0fa58b4ef7617c673f07201e3463a3099957" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "d537a9d42c6f5349d1716ae9be9a0645cc168f7aff2a8353819d570e5d02c0b3" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
  '(default-input-method "russian-computer")
  '(dired-listing-switches "-alh")
  '(doc-view-conversion-refresh-interval 0)
@@ -39,14 +39,12 @@
  '(mlint-programs '("" ""))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
+   '(auto-virtualenvwrapper vue-mode typescript-mode renpy realgud lispy ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
  '(paradox-github-token t)
  '(profiler-sampling-interval 100000)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
- '(python-shell-interpreter "ipython3")
- '(python-shell-interpreter-args "--colors Linux --no-autoindent")
  '(racer-cmd "/home/bulkin/.cargo/bin/racer")
  '(racer-rust-src-path "/home/bulkin/src/remote/src_big/rust/src")
  '(reftex-bibpath-environment-variables '("BIBINPUTS" "TEXBIB" "."))
@@ -83,6 +81,7 @@
  '(vc-directory-exclusion-list
    '("SCCS" "RCS" "CVS" "MCVS" ".svn" ".hg" ".bzr" "_MTN" "_darcs" "{arch}"))
  '(verilog-indent-level-module 3)
+ '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe))))
  '(winner-mode t))
 
 (custom-set-faces
@@ -91,6 +90,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(bold ((t (:weight bold :family "Terminus"))))
+ '(mmm-code-submode-face ((t nil)))
+ '(mmm-default-submode-face ((t nil)))
  '(variable-pitch ((t (:family "Terminus")))))
 
 (setq use-package-verbose t)
@@ -138,9 +139,10 @@
 (setq column-number-mode t)
 
 ;;(set-frame-font "-xos4-terminus-medium-*-normal-*-18-*-*-*-*-*-*-*")
-;;(set-frame-font "Terminus 14")
-(set-frame-font "xos4 Terminus 14")
-(set-face-font 'fixed-pitch "xos4 Terminus 14")
+(set-frame-font "Terminus 14")
+;;(set-frame-font "xos4 Terminus 14")
+;;(set-face-font 'fixed-pitch "xos4 Terminus 14")
+(set-face-font 'fixed-pitch "Terminus 14")
 ;; the right way to set font?
 (add-to-list 'default-frame-alist
              '(font . "xos4 Terminus 14"))
@@ -284,6 +286,7 @@
 ;; (load-file "~/.emacs.d/load_cedet.el")
 (load-file "~/.emacs.d/load_packages.el")
 ;;(load-file "~/.emacs.d/load_python.el")
+(load-file "~/.emacs.d/setup-python.el")
 (load-file "~/.emacs.d/load_misc.el")
 ;;(load-file "~/.emacs.d/load_rust.el")
 (load-file "~/.emacs.d/nyquist-mode.el")
@@ -304,11 +307,11 @@
 (add-to-list 'tramp-remote-path "~/bin")
 ;; Make tramp faster
 (setq vc-handled-backends '(Git Hg Bzr))
-(advice-add 'ebuild-repo-mode-maybe-enable :around
-            (lambda (f &rest args)
-              (unless (file-remote-p default-directory) (apply f args))))
+;; (advice-add 'ebuild-repo-mode-maybe-enable :around
+;;             (lambda (f &rest args)
+;;               (unless (file-remote-p default-directory) (apply f args))))
 
-
+;; Window management
 (defun toggle-window-dedicated ()
 "Toggle whether the current active window is dedicated or not"
 (interactive)
@@ -321,6 +324,14 @@
  (current-buffer)))
 
 (global-set-key (kbd "C-x w") 'toggle-window-dedicated)
+
+(setq switch-to-buffer-obey-display-actions nil)
+
+
+(setq display-buffer-alist
+      '(("\\*"
+        (display-buffer-use-some-window) ())))
+
 
 (defun wrap-braces (char)
   (interactive "cEnter wrapping char")
@@ -351,3 +362,4 @@
         (eglot--managed-mode 0)
         (undo-tree-mode -1)
         (kill-buffer buf)))))
+
