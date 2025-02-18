@@ -9,9 +9,17 @@
 
 (package-initialize)
 
+(use-package dired-du
+  :ensure)
+
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+(require 'vc-use-package)
+
 (defvar used-packages
   '(ace-window
     autopair
+    cmake-mode
     counsel
     cuda-mode
     darktooth-theme
@@ -238,3 +246,10 @@
 ;; python
 (add-hook 'python-mode-hook #'auto-virtualenvwrapper-activate)
 (add-hook 'projectile-after-switch-project-hook #'auto-virtualenvwrapper-activate)
+
+;;; rust
+(use-package eglot-x
+  :ensure t
+  :config
+  (with-eval-after-load 'eglot (require 'eglot-x))
+  :vc (:fetcher github :repo nemethf/eglot-x))

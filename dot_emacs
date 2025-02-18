@@ -41,7 +41,10 @@
  '(mlint-programs '("" ""))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(auto-virtualenvwrapper vue-mode typescript-mode renpy realgud lispy ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
+   '(eglot-x vc-use-package cmake-mode dired-du auto-virtualenvwrapper vue-mode typescript-mode renpy realgud lispy ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
+ '(package-vc-selected-packages
+   '((eglot-x :vc-backend Git :url "https://github.com/nemethf/eglot-x")
+     (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
  '(paradox-github-token t)
  '(profiler-sampling-interval 100000)
  '(py-shell-name "python2")
