@@ -129,3 +129,69 @@
 (setq reftex-isearch-document t)
 (autoload 'ebib "ebib" "Ebib, a BibTeX database manager." t)
 
+;; ------ Helpers --------
+
+
+(defun profiler-export-folded (filename &optional mem)
+  "Export CPU profile to folded stack format (func1;func2;func3 count).
+If MEM is non-nil, export memory profile instead."
+  (interactive "FFile: \nP")
+  (let ((log (if mem profiler-mem-log profiler-cpu-log)))
+    (with-temp-file filename
+      (maphash (lambda (stack count)
+                 ;; Convert stack vector to list, handling all element types
+                 (let* ((frames
+                         (delq nil  ; Remove nil entries
+                               (mapcar (lambda (elem)
+                                         (cond
+                                          ;; Skip nils (filtered by delq, but explicit here)
+                                          ((null elem) nil)
+                                          ;; Symbols: get name
+                                          ((symbolp elem) (symbol-name elem))
+                                          ;; Compiled functions/subrs: extract name or use placeholder
+                                          ((functionp elem)
+                                           (let ((fn (indirect-function elem)))
+                                             (if (symbolp fn)
+                                                 (symbol-name fn)
+                                               (format "#<compiled:%s>"
+                                                       (substring (prin1-to-string elem) 0 20)))))
+                                          ;; Anything else: string representation
+                                          (t (format "%s" elem))))
+                                       ;; Convert vector to list
+                                       (append stack nil))))
+                        ;; Reverse: profiler stores inner->outer, folded wants outer->inner
+                        (clean (reverse frames)))
+                   (when clean
+                     (insert (mapconcat #'identity clean ";"))
+                     (insert " ")
+                     (insert (number-to-string count))
+                     (insert "\n"))))
+               log)))
+  (message "Exported folded profile to %s" filename))
+
+(defun profiler-export-folded-truncated (filename n &optional mem)
+  "Export top N stacks to folded format."
+  (interactive "FFile: \nnTop N: \nP")
+  (let* ((log (if mem profiler-mem-log profiler-cpu-log))
+         (pairs nil))
+    (maphash (lambda (s c) (push (cons s c) pairs)) log)
+    (setq pairs (sort pairs (lambda (a b) (> (cdr a) (cdr b)))))
+    (with-temp-file filename
+      (dolist (pair (cl-subseq pairs 0 (min n (length pairs))))
+        (let* ((stack (car pair))
+               (count (cdr pair))
+               (names (delq nil (mapcar (lambda (x)
+                                          (cond ((null x) nil)
+                                                ((symbolp x) (symbol-name x))
+                                                ((functionp x) 
+                                                 (format "#<fn:%s>" 
+                                                         (if (symbolp (indirect-function x))
+                                                             (symbol-name (indirect-function x))
+                                                           "compiled")))
+                                                (t (format "%s" x))))
+                                        (append stack nil)))))
+          (when names
+            (insert (mapconcat #'identity (reverse names) ";"))
+            (insert " " (number-to-string count) "\n")))))
+    (message "Exported top %d stacks to %s" (min n (length pairs)) filename)))
+

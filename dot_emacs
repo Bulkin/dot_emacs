@@ -14,20 +14,30 @@
  '(cc-search-directories
    '("." "/usr/include" "/usr/local/include/*" "\"$PROJECT/*/include\""))
  '(custom-safe-themes
-   '("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "d824f0976625bb3bb38d3f6dd10b017bdb4612f27102545a188deef0d88b0cd9" "803aaddee599b43da31fb0fd8fae0fa58b4ef7617c673f07201e3463a3099957" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "d537a9d42c6f5349d1716ae9be9a0645cc168f7aff2a8353819d570e5d02c0b3" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b" "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd" default))
+   '("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3"
+     "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
+     "d824f0976625bb3bb38d3f6dd10b017bdb4612f27102545a188deef0d88b0cd9"
+     "803aaddee599b43da31fb0fd8fae0fa58b4ef7617c673f07201e3463a3099957"
+     "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5"
+     "d537a9d42c6f5349d1716ae9be9a0645cc168f7aff2a8353819d570e5d02c0b3"
+     "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940"
+     "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a"
+     "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+     "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879"
+     "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0"
+     "e35ef4f72931a774769da2b0c863e11d94e60a9ad97fb9734e8b28c7ee40f49b"
+     "01b9bfb4ddb9c7cc6e3720ad4fc71bd6f0351ba8014a992d672320cca0a676bd"
+     default))
  '(default-input-method "russian-computer")
  '(dired-listing-switches "-alh")
  '(doc-view-conversion-refresh-interval 0)
  '(egg-mode-key-prefix "C-x v")
  '(egg-quit-window-actions
-   '((egg-status-buffer-mode kill)
-     (egg-log-buffer-mode kill)
-     (egg-commit-buffer-mode kill)
-     (egg-reflog-buffer-mode kill)
-     (egg-diff-buffer-mode kill)
-     (egg-file-log-buffer-mode kill)))
+   '((egg-status-buffer-mode kill) (egg-log-buffer-mode kill)
+     (egg-commit-buffer-mode kill) (egg-reflog-buffer-mode kill)
+     (egg-diff-buffer-mode kill) (egg-file-log-buffer-mode kill)))
  '(elpy-rpc-backend "jedi")
- '(enable-remote-dir-locals t)
+ '(enable-remote-dir-locals nil)
  '(fill-column 78)
  '(grep-use-null-device nil)
  '(inferior-octave-startup-args '("-i" "--line-editing"))
@@ -41,12 +51,26 @@
  '(mlint-programs '("" ""))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(eglot-x vc-use-package cmake-mode dired-du auto-virtualenvwrapper vue-mode typescript-mode renpy realgud lispy ein plantuml-mode darktooth-theme tao-theme moe-theme material-theme solarized-theme zenburn-theme ubuntu-theme rmsbolt lsp-java tramp qt-pro-mode meson-mode imenu-list counsel gdscript-mode lua-mode eglot yaml cuda-mode irony bats-mode dap-mode undo-tree magit elpy yasnippet multiple-cursors lsp-mode rustic go-mode dockerfile-mode ace-window jupyter ob-ipython dumb-jump sr-speedbar yaml-mode intero virtualenvwrapper virtualenv toml-mode swiper smart-tabs-mode slime qml-mode polymode paredit paradox markdown-mode helm haskell-mode glsl-mode ggtags fill-column-indicator autopair))
+   '(agent-shell ai-code auto-virtualenvwrapper autopair bats-mode cmake-mode
+                 counsel cuda-mode darktooth-theme dired-du dockerfile-mode
+                 dumb-jump eglot-x ein elpy fill-column-indicator
+                 gdscript-mode ggtags glsl-mode go-mode helm
+                 ido-completing-read+ ido-imenu imenu-list intero irony
+                 jupyter lispy lsp-java lua-mode magit magit-ido
+                 material-theme meson-mode moe-theme multiple-cursors
+                 ob-ipython paradox paredit plantuml-mode qml-mode qt-pro-mode
+                 realgud renpy rmsbolt rustic slime smart-tabs-mode
+                 smartparens solarized-theme sr-speedbar tao-theme toml-mode
+                 tramp-hlo typescript-mode ubuntu-theme undo-tree
+                 vc-use-package virtualenv vterm vue-mode yaml-mode
+                 zenburn-theme))
  '(package-vc-selected-packages
    '((eglot-x :vc-backend Git :url "https://github.com/nemethf/eglot-x")
-     (vc-use-package :vc-backend Git :url "https://github.com/slotThe/vc-use-package")))
+     (vc-use-package :vc-backend Git :url
+                     "https://github.com/slotThe/vc-use-package")))
  '(paradox-github-token t)
  '(profiler-sampling-interval 100000)
+ '(prolog-system 'swi)
  '(py-shell-name "python2")
  '(py-smart-indentation nil)
  '(python-indent-offset 4)
@@ -58,28 +82,15 @@
  '(ropemacs-guess-project t)
  '(rust-rustfmt-bin "/home/bulkin/.cargo/bin/rustfmt")
  '(safe-local-variable-values
-   '((eval ignore-errors
-           (require 'whitespace)
-           (whitespace-mode 1))
-     (whitespace-line-column . 79)
-     (whitespace-style face indentation)
-     (eval progn
-           (c-set-offset 'case-label '0)
-           (c-set-offset 'innamespace '0)
+   '((eval ignore-errors (require 'whitespace) (whitespace-mode 1))
+     (whitespace-line-column . 79) (whitespace-style face indentation)
+     (eval progn (c-set-offset 'case-label '0) (c-set-offset 'innamespace '0)
            (c-set-offset 'inline-open '0))
-     (indent-tabs-mode . 1)
-     (org-confirm-babel-evaluate)
-     (eval when
-           (fboundp 'rainbow-mode)
-           (rainbow-mode 1))
-     (smart-tabs-mode)
-     (c-file-style . linux)
-     (c-file-style . stroustrup)
-     (c-file-style . java)
+     (indent-tabs-mode . 1) (org-confirm-babel-evaluate)
+     (eval when (fboundp 'rainbow-mode) (rainbow-mode 1)) (smart-tabs-mode)
+     (c-file-style . linux) (c-file-style . stroustrup) (c-file-style . java)
      (indent-tabs-mode . true)
-     (eval progn
-           (c-set-offset 'innamespace '0)
-           (c-set-offset 'inline-open '0))))
+     (eval progn (c-set-offset 'innamespace '0) (c-set-offset 'inline-open '0))))
  '(semantic-c-dependency-system-include-path '("/usr/include" "/usr/msp430/include"))
  '(session-use-package t nil (session))
  '(transient-mark-mode t)
@@ -130,6 +141,8 @@
 
 ;; switching buffers
 (ido-mode 1)
+(ido-everywhere 1)
+
 (defun iswitchb-local-keys ()
   (mapc (lambda (K) 
 	  (let* ((key (car K)) (fun (cdr K)))
@@ -139,8 +152,6 @@
 	  ("<up>"    . ignore             )
 	  ("<down>"  . ignore             ))))
 (add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys)
-;; (require 'ido)
-;; (ido-mode t)
 
 (setq column-number-mode t)
 
@@ -151,7 +162,7 @@
 (set-face-font 'fixed-pitch "Terminus 14")
 ;; the right way to set font?
 (add-to-list 'default-frame-alist
-             '(font . "xos4 Terminus 14"))
+             '(font . "Terminus 14"))
 ;; ascii-term colors
 (setq ansi-color-names-vector
       ["#000000" "#b21818" "#18b218" "#BE5F00"
@@ -319,8 +330,8 @@
 (add-to-list 'tramp-remote-path "~/.cargo/bin")
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path) ;; this makes the remote shell source .profile
 
-;; Make tramp faster
-(setq vc-handled-backends '(Git Hg Bzr))
+;;; Make tramp faster
+(setq vc-handled-backends '(Git))
 ;; (advice-add 'ebuild-repo-mode-maybe-enable :around
 ;;             (lambda (f &rest args)
 ;;               (unless (file-remote-p default-directory) (apply f args))))
@@ -339,13 +350,23 @@
 
 (global-set-key (kbd "C-x w") 'toggle-window-dedicated)
 
-(setq switch-to-buffer-obey-display-actions nil)
+;;; Experiments with transient buffers
+;;;
+;;; The default functionality seems back to normal
+
+;; (setq switch-to-buffer-obey-display-actions nil)
+
+;; (setq transient-display-buffer-action
+;;       '(display-buffer-below-selected
+;;         ;;(dedicated . t)
+;;         (inhibit-same-window . t)
+;;         (preserve-size . (t . t))))
 
 
-(setq display-buffer-alist
-      '(("\\*"
-        (display-buffer-reuse-window
-         display-buffer-use-some-window) ())))
+;; (setq display-buffer-alist
+;;       '(("\\*"
+;;         (display-buffer-reuse-window
+;;          display-buffer-use-some-window) ())))
 
 
 (defun wrap-braces (char)
@@ -378,3 +399,8 @@
         (undo-tree-mode -1)
         (kill-buffer buf)))))
 
+
+(defvar python-bin-path (expand-file-name  "~/.local/bin"))
+
+(when (file-exists-p python-bin-path)
+  (add-to-list 'exec-path python-bin-path))

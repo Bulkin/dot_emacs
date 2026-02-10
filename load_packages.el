@@ -16,6 +16,22 @@
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
 (require 'vc-use-package)
 
+(use-package tramp-hlo :ensure
+  :vc (:fetcher github :repo jsadusk/tramp-hlo  :rev main)
+  :config (tramp-hlo-setup))
+
+(use-package ido-completing-read+
+  :ensure)
+
+;;(use-package ido-imenu :ensure) -- where did this come from?
+
+(use-package smartparens
+  :ensure smartparens
+  :hook (prog-mode text-mode markdown-mode)
+  :config
+  ;; load default config
+  (require 'smartparens-config))
+
 (defvar used-packages
   '(ace-window
     autopair
@@ -25,7 +41,6 @@
     darktooth-theme
     dash ;; for solarized-contrast
     eglot
-    elpy
     go-mode
     fill-column-indicator
     haskell-mode
@@ -35,8 +50,9 @@
     magit
     meson-mode
     multiple-cursors
-    ;;paredit
-    lispy
+    ;; paredit
+    ;; lispy
+    ;; smartparens
     plantuml-mode
     qml-mode
     qt-pro-mode
@@ -60,33 +76,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.pr[io]$" . qt-pro-mode))
 
-;;(elpy-enable)
-(setenv "JUPYTER_CONSOLE_TEST" "1")
-(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
-
-(setq python-shell-interpreter "ipython3"
-      python-shell-interpreter-args "--simple-prompt -i")
-
-;; (setq python-shell-interpreter "jupyter"
-;;       python-shell-interpreter-args "console --simple-prompt"
-;;       python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-;;              "jupyter")
-
-;;(require 'python-mode)
-
 (smart-tabs-insinuate 'c 'c++)
-
-(add-hook 'python-mode-hook 'fci-mode)
-
-;; elpy fixes
-(defadvice elpy-rpc--open (around native-rpc-for-tramp activate)
-  (interactive)
-  (let ((elpy-rpc-backend
-         (if (ignore-errors (tramp-tramp-file-p (elpy-project-root)))
-             "jedi")))
-     (message "Using elpy backend: %s for %s" elpy-rpc-backend (elpy-project-root))
-     ad-do-it))
 
 (require 'autopair)
 ;; (autopair-global-mode)
@@ -121,18 +111,20 @@
 ;; (define-key paredit-mode-map (kbd "C-j") 'paredit-newline)
 
 ;; lispy load hooks
-(require 'lispy)
-(add-hook 'emacs-lisp-mode-hook       (lambda () (lispy-mode 1)))
-(add-hook 'eval-expression-minibuffer-setup-hook (lambda () (lispy-mode 1)))
-(add-hook 'ielm-mode-hook             (lambda () (lispy-mode 1)))
-(add-hook 'lisp-mode-hook             (lambda () (lispy-mode 1)))
-(add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1)))
-(add-hook 'scheme-mode-hook           (lambda () (lispy-mode 1)))
-(defun conditionally-enable-lispy ()
-  (when (eq this-command 'eval-expression)
-    (lispy-mode 1)))
-(add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
-(define-key lispy-mode-map (kbd "M-o") nil)
+;; (require 'lispy)
+;; (add-hook 'emacs-lisp-mode-hook       (lambda () (lispy-mode 1)))
+;; (add-hook 'eval-expression-minibuffer-setup-hook (lambda () (lispy-mode 1)))
+;; (add-hook 'ielm-mode-hook             (lambda () (lispy-mode 1)))
+;; (add-hook 'lisp-mode-hook             (lambda () (lispy-mode 1)))
+;; (add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1)))
+;; (add-hook 'scheme-mode-hook           (lambda () (lispy-mode 1)))
+;; (defun conditionally-enable-lispy ()
+;;   (when (eq this-command 'eval-expression)
+;;     (lispy-mode 1)))
+;; (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
+;; (define-key lispy-mode-map (kbd "M-o") nil)
+
+(require 'smartparens-config)
 
 ;; Proper speedbar
 (require 'sr-speedbar)
@@ -151,12 +143,15 @@
 (setq org-display-remote-inline-images 'cache)
 (setq org-image-actual-width '(800))
 (setq org-src-window-setup 'other-window)
+;; List of additional LaTeX packages
+;; (add-to-list 'org-export-latex-packages-alist '("" "cmap" t))
+;; (add-to-list 'org-export-latex-packages-alist '("english,russian" "babel" t))
 
 ;; general lsp
 (setq gc-cons-threshold (* 64 1024 1024))
 (setq read-process-output-max (* 1024 1024))
 
-;; rust
+;;; rust
 (require 'yasnippet)
 (defun my-rust-hook ()
   (local-set-key "\C-cC" 'compile)
@@ -170,7 +165,14 @@
 (add-hook 'rustic-mode-hook 'my-rust-hook)
 (setq rustic-lsp-client 'eglot)
 
-;; c++
+(use-package eglot-x
+  :ensure t
+  :config
+  (with-eval-after-load 'eglot (require 'eglot-x))
+  :vc (:fetcher github :repo nemethf/eglot-x))
+
+
+;;; c++
 (add-to-list 'auto-mode-alist '("\\.cuh?\\'" . c++-mode))
 ;; (require 'lsp-mode)
 ;; (add-hook 'c-mode-hook 'lsp)
@@ -239,17 +241,91 @@
           (revert-buffer t (not (buffer-modified-p))))))))
 
 
-;; plantuml
+;;; plantuml
 (setq plantuml-jar-path "/usr/share/plantuml/lib/plantuml.jar")
 (setq plantuml-default-exec-mode 'jar)
 
-;; python
-(add-hook 'python-mode-hook #'auto-virtualenvwrapper-activate)
-(add-hook 'projectile-after-switch-project-hook #'auto-virtualenvwrapper-activate)
 
-;;; rust
-(use-package eglot-x
-  :ensure t
+;;; magit
+(use-package magit-ido :ensure t)
+(setq magit-completing-read-function 'magit-ido-completing-read)
+
+;; magit faster over tramp
+;; 1. Disable buffer iteration for remote repositories
+(defun my/magit-save-repository-buffers-maybe (orig-fun &optional arg)
+  "Skip magit-save-repository-buffers for remote repositories."
+  (if (file-remote-p default-directory)
+      ;; Just save the current buffer if modified, don't scan all buffers
+      (when (and (buffer-modified-p)
+                 (buffer-file-name))
+        (save-buffer))
+    (funcall orig-fun arg)))
+
+(advice-add 'magit-save-repository-buffers :around #'my/magit-save-repository-buffers-maybe)
+
+;; 2. Disable auto-revert for magit buffers on remote
+(add-hook 'magit-mode-hook
+          (lambda ()
+            (when (file-remote-p default-directory)
+              (auto-revert-mode -1))))
+
+;; 3. Reduce status refresh frequency
+(setq magit-refresh-status-buffer nil)  ; Manual refresh with 'g'
+
+;; 4. Remove expensive status sections for remote repos
+(defun my/magit-optimize-for-tramp ()
+  "Remove slow sections when viewing remote repositories."
+  (when (file-remote-p default-directory)
+    ;; Remove untracked files (requires git ls-files)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-untracked-files t)
+    ;; Remove recent commits (requires git log)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent t)
+    ;; Remove diff stats
+    (remove-hook 'magit-status-sections-hook 'magit-insert-diff-filter-header t)))
+
+;;(add-hook 'magit-status-mode-hook #'my/magit-optimize-for-tramp)
+
+;; 5. Increase process timeout for slow git operations
+(setq magit-process-timeout 30)
+
+;; 6. Disable diff refinement (syntax highlighting of intra-line changes)
+;;(setq magit-diff-refine-hunk nil)
+
+;; 7. Use --no-pager and reduce git output
+(setq magit-git-global-arguments
+      '("--no-pager" "-c" "core.preloadindex=true" "-c" "color.ui=false"))
+
+;; 8. Cache git directory lookups
+;; (setq magit-credential-cache-daemon-socket nil)  ; Disable if causing issues
+
+;; Prevent TRAMP from creating temp files for every git command
+;;(setq magit-tramp-pipe-stty-settings "stty -inlcr -onlcr -echo kill '^U' erase '^H'")
+;;(setq tramp-process-connection-type nil)  ; Use pipes instead of ptys
+
+(setq remote-file-name-inhibit-locks t
+      tramp-use-scp-direct-remote-copying t
+      remote-file-name-inhibit-auto-save-visited t)
+
+(connection-local-set-profile-variables 'remote-direct-async-process '((tramp-direct-async-process . t)))
+(connection-local-set-profiles '(:application tramp :protocol "scp") 'remote-direct-async-process)
+(setq magit-tramp-pipe-stty-settings 'pty)
+
+;;; ai
+(use-package ai-code :ensure t
+  ;; :straight (:host github :repo "tninja/ai-code-interface.el") ;; if you want to use straight to install, no need to have MELPA setting above
   :config
-  (with-eval-after-load 'eglot (require 'eglot-x))
-  :vc (:fetcher github :repo nemethf/eglot-x))
+  ;; use codex as backend, other options are 'claude-code, 'gemini, 'github-copilot-cli, 'opencode, 'grok, 'cursor, 'kiro, 'claude-code-ide, 'claude-code-el
+  (ai-code-set-backend 'codex)
+  ;; Enable global keybinding for the main menu
+  (global-set-key (kbd "C-c a") #'ai-code-menu)
+  ;; Optional: Use eat if you prefer, by default it is vterm
+  ;;(setq ai-code-backends-infra-terminal-backend 'eat) ;; for openai codex, github copilot cli, opencode, grok, cursor-cli; for claude-code-ide.el, you can check their config
+  ;; Optional: Enable @ file completion in comments and AI sessions
+  (ai-code-prompt-filepath-completion-mode 1)
+  ;; Optional: Turn on auto-revert buffer, so that the AI code change automatically appears in the buffer
+  (global-auto-revert-mode 1)
+  (setq auto-revert-interval 1) ;; set to 1 second for faster update
+  ;; (global-set-key (kbd "C-c a C") #'ai-code-toggle-filepath-completion)
+  ;; Optional: Set up Magit integration for AI commands in Magit popups
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))

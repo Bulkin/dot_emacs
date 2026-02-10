@@ -1,7 +1,22 @@
-(use-package auto-virtualenvwrapper
-  :ensure
-  :hook (python-mode-hook . auto-virtualenvwrapper-activate))
+;;; TODO: try auto-virtualenv
+(use-package auto-virtualenvwrapper :ensure)
 
+
+(setenv "JUPYTER_CONSOLE_TEST" "1")
+(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
+
+(setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "--simple-prompt -i")
+
+;; (setq python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+;;              "jupyter")
+
+
+(add-hook 'python-mode-hook 'fci-mode)
+(add-hook 'projectile-after-switch-project-hook #'auto-virtualenvwrapper-activate)
 
 ;; Run python and pop-up its shell.
 ;; Kill process to solve the reload modules problem.
