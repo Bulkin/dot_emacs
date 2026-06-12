@@ -12,12 +12,13 @@
 (use-package dired-du
   :ensure)
 
-(unless (package-installed-p 'vc-use-package)
-  (package-vc-install "https://github.com/slotThe/vc-use-package"))
-(require 'vc-use-package)
+;; Included in emacs
+;;(unless (package-installed-p 'vc-use-package)
+;;  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+;;(require 'vc-use-package)
 
 (use-package tramp-hlo :ensure
-  :vc (:fetcher github :repo jsadusk/tramp-hlo  :rev main)
+  :vc (:url "https://github.com/jsadusk/tramp-hlo" :rev main)
   :config (tramp-hlo-setup))
 
 (use-package ido-completing-read+
@@ -45,6 +46,7 @@
     fill-column-indicator
     haskell-mode
     jupyter
+    kotlin-ts-mode
     lua-mode
     lsp-mode
     magit
@@ -90,6 +92,17 @@
 (add-hook 'haskell-mode-hook 'haskell-indent-mode)
 ;;(add-hook 'haskell-mode-hook 'intero-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
+
+;; treesitter (kotlin for now)
+(require 'treesit)
+(add-to-list 'treesit-language-source-alist
+             '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))
+
+(dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
+
 
 ;; multiple cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -169,7 +182,7 @@
   :ensure t
   :config
   (with-eval-after-load 'eglot (require 'eglot-x))
-  :vc (:fetcher github :repo nemethf/eglot-x))
+  :vc (:url "https://nemethf/eglot-x"))
 
 
 ;;; c++
@@ -270,7 +283,7 @@
               (auto-revert-mode -1))))
 
 ;; 3. Reduce status refresh frequency
-(setq magit-refresh-status-buffer nil)  ; Manual refresh with 'g'
+;;(setq magit-refresh-status-buffer nil)  ; Manual refresh with 'g'
 
 ;; 4. Remove expensive status sections for remote repos
 (defun my/magit-optimize-for-tramp ()
@@ -303,7 +316,7 @@
 ;;(setq tramp-process-connection-type nil)  ; Use pipes instead of ptys
 
 (setq remote-file-name-inhibit-locks t
-      tramp-use-scp-direct-remote-copying t
+      tramp-use-scp-direct-remote-copying nil ; t is slower for small files?
       remote-file-name-inhibit-auto-save-visited t)
 
 (connection-local-set-profile-variables 'remote-direct-async-process '((tramp-direct-async-process . t)))
@@ -329,3 +342,17 @@
   ;; Optional: Set up Magit integration for AI commands in Magit popups
   (with-eval-after-load 'magit
     (ai-code-magit-setup-transients)))
+
+(defun read-file-into-string (filepath)
+  "Read FILEPATH contents into a string, expanding ~ and environment variables."
+  (with-temp-buffer
+    (insert-file-contents (expand-file-name filepath))
+    (buffer-string)))
+
+
+(use-package agent-shell
+    :ensure t
+    ;;:vc (:url "https://github.com/csheaff/agent-shell" :branch "gh-122-add-tramp-support")  ; tramp support not merged yet
+    :config
+    (setq agent-shell-goose-authentication
+          (agent-shell-make-goose-authentication :none t)))

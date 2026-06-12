@@ -1,3 +1,5 @@
+;; -*- mode: emacs-lisp -*-
+
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -10,6 +12,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-fold-type-list '(macro math))
+ '(agent-shell-show-config-icons nil)
+ '(agent-shell-thought-process-expand-by-default t)
+ '(agent-shell-tool-use-expand-by-default nil)
  '(browse-url-browser-function 'eww-browse-url)
  '(cc-search-directories
    '("." "/usr/include" "/usr/local/include/*" "\"$PROJECT/*/include\""))
@@ -56,14 +61,13 @@
                  dumb-jump eglot-x ein elpy fill-column-indicator
                  gdscript-mode ggtags glsl-mode go-mode helm
                  ido-completing-read+ ido-imenu imenu-list intero irony
-                 jupyter lispy lsp-java lua-mode magit magit-ido
-                 material-theme meson-mode moe-theme multiple-cursors
-                 ob-ipython paradox paredit plantuml-mode qml-mode qt-pro-mode
-                 realgud renpy rmsbolt rustic slime smart-tabs-mode
-                 smartparens solarized-theme sr-speedbar tao-theme toml-mode
-                 tramp-hlo typescript-mode ubuntu-theme undo-tree
-                 vc-use-package virtualenv vterm vue-mode yaml-mode
-                 zenburn-theme))
+                 jupyter kotlin-mode kotlin-ts-mode lispy lsp-java lua-mode
+                 magit magit-ido material-theme meson-mode moe-theme
+                 multiple-cursors ob-ipython paradox paredit plantuml-mode
+                 qml-mode qt-pro-mode realgud renpy rmsbolt rustic slime
+                 smart-tabs-mode smartparens solarized-theme sr-speedbar
+                 tao-theme toml-mode tramp-hlo typescript-mode ubuntu-theme
+                 undo-tree virtualenv vterm vue-mode yaml-mode zenburn-theme))
  '(package-vc-selected-packages
    '((eglot-x :vc-backend Git :url "https://github.com/nemethf/eglot-x")
      (vc-use-package :vc-backend Git :url
@@ -110,6 +114,10 @@
  '(mmm-code-submode-face ((t nil)))
  '(mmm-default-submode-face ((t nil)))
  '(variable-pitch ((t (:family "Terminus")))))
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 (setq use-package-verbose t)
 
@@ -353,6 +361,12 @@
 ;;; Experiments with transient buffers
 ;;;
 ;;; The default functionality seems back to normal
+
+;; Or if you want it completely out of the way:
+(setq transient-display-buffer-action
+      '(display-buffer-in-side-window
+        (side . right)
+        (window-width . 0.3)))
 
 ;; (setq switch-to-buffer-obey-display-actions nil)
 
